@@ -152,3 +152,12 @@
 .button:default:hover {
     -fx-background-color: derive(-fx-focus-color,30%);
 }
+.circle-red:default {
+    -fx-fill: #F50057;
+    -fx-stroke: derive(#F50057,30%);
+    -fx-stroke-type: outside;
+    -fx-stroke-width: 2;
+}
+.circle-yellow{
+    -fx-background-color: #FFEB3B;
+}

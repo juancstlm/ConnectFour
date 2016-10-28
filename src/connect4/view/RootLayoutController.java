@@ -3,15 +3,20 @@ package connect4.view;
 import connect4.ConnectFour;
 
 public class RootLayoutController {
+	
+	private ConnectFour mainApp;
 
 	public RootLayoutController() {
 		// TODO Auto-generated constructor stub
 		// This controller might not do much anyways 
 	}
 
-	public void setMainApp(ConnectFour connectFour) {
-		// TODO Auto-generated method stub
-		
+	/**
+	 * Sets the main application for the controller
+	 * @param app the Application
+	 */
+	public void setMainApp(ConnectFour app) {
+		this.mainApp = app;
 	}
 
 }

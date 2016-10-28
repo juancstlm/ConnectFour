@@ -13,10 +13,10 @@ import javafx.stage.Stage;
 
 public class ConnectFour extends Application {
 
-	private BorderPane rootLayout;
-	private Stage primaryStage;
-	private static int boardSize = 7;
-	private static int scoreToWin = 4;
+	private BorderPane rootLayout; // the root pane in witch the application is run
+	private Stage primaryStage; // the stage were the game is played
+	private static int boardSize = 7; // board size length and width 
+	private static int scoreToWin = 4; // number of connections in a row need to win
 
 	public static void main(String[] args) {
 		// TODO use the provided arguments to set the score to win and board
@@ -32,6 +32,9 @@ public class ConnectFour extends Application {
 		initGameView();
 	}
 
+	/**
+	 * Private Method to initialize the game view from FXML 
+	 */
 	private void initGameView() {
 		try {
 			// Load the layout from the FXML file
@@ -50,6 +53,9 @@ public class ConnectFour extends Application {
 		}
 	}
 
+	/**
+	 * Initial method to initialize the root layout
+	 */
 	private void initRootLayout() {
 		try {
 			// Load the Layout from the FXML file
@@ -74,7 +80,7 @@ public class ConnectFour extends Application {
 	/**
 	 * Gets the length of the square game board
 	 * 
-	 * @return
+	 * @return length and width of the board
 	 */
 	public static int getBoardSize() {
 		return boardSize;
@@ -83,12 +89,25 @@ public class ConnectFour extends Application {
 	/**
 	 * Gets the score needed to win in this game;
 	 * 
-	 * @return
+	 * @return number of connections in a row needed to win the game.
 	 */
 	public static int getScoreToWin() {
 		return scoreToWin;
 	}
+	
+	/**
+	 * Sets the score needed to win to be greater than the standard 4 
+	 * @param x score need to win must be greater than 4 
+	 */
+	private void setScoreToWin(String x){
+		//TODO implement 
+	}
 
+	/**
+	 * Sets the game board size.
+	 * Should only be used one in the main method to parse the arguments
+	 * @param x the new board size 
+	 */
 	private void setBoardSize(String x) {
 		if (x == null) {
 			// TODO implement so that x is not null and not negative or small

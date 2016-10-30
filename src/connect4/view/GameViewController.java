@@ -115,7 +115,7 @@ public class GameViewController {
 		int column = gameGrid.getColumnIndex(pane);// find what column this
 		// pane is in
 		int row = mainApp.getAvailbleRow(column)+1;
-		if (row != -1) { // if i can place a chip here
+		if (mainApp.getAvailbleRow(column) != -1) { // if i can place a chip here
 
 			Player[][] board = mainApp.getGameBoard();
 			board[row-1][column] = player;

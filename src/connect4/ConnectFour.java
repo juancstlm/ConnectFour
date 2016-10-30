@@ -1,7 +1,10 @@
 package connect4;
 
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.Queue;
 
+import connect4.model.Player;
 import connect4.view.GameViewController;
 import connect4.view.RootLayoutController;
 import javafx.application.Application;
@@ -9,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class ConnectFour extends Application {
@@ -17,15 +21,32 @@ public class ConnectFour extends Application {
 	private Stage primaryStage; // the stage were the game is played
 	private static int boardSize = 7; // board size length and width 
 	private static int scoreToWin = 4; // number of connections in a row need to win
-
+	private Queue<Player> players; // The players of the game 
+	private Player[][] gameboard; //The game board
+	
 	public static void main(String[] args) {
 		// TODO use the provided arguments to set the score to win and board
 		// size.
 		launch();
+		
+		
 	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		
+		/**
+		 * DEBUG ONLY
+		 */
+		gameboard = new Player[boardSize][boardSize];
+		Player red = new Player();
+		red.setPlayerColor(Color.RED);
+		Player yellow = new Player();
+		yellow.setPlayerColor(Color.YELLOW);
+		players = new LinkedList<Player>();
+		players.add(yellow);
+		players.add(red);
+		
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Connect Four");
 		initRootLayout();
@@ -85,6 +106,14 @@ public class ConnectFour extends Application {
 	public static int getBoardSize() {
 		return boardSize;
 	}
+	
+	/**
+	 * Gets the current que of players
+	 * @return
+	 */
+	public Queue<Player> getPlayers(){
+		return players;
+	}
 
 	/**
 	 * Gets the score needed to win in this game;
@@ -114,6 +143,24 @@ public class ConnectFour extends Application {
 			// board size
 		}
 		boardSize = Integer.valueOf(x);
+		gameboard = new Player[boardSize][boardSize];
+	}
+	
+	/**
+	 * Gets the gameboard
+	 * @return
+	 */
+	public Player[][] getGameBoard(){
+		return gameboard;
+	}
+	
+	public int getAvailbleRow(int column){
+		for(int r = boardSize-1; r>= 0;r--){
+			if(gameboard[r][column] == null){
+				return r;
+			}
+		}
+		return -1;
 	}
 
 }

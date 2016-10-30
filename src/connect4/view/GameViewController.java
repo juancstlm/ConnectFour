@@ -1,6 +1,6 @@
 package connect4.view;
 
-import java.util.ArrayList;
+import java.util.Queue;
 
 import connect4.ConnectFour;
 import connect4.model.Player;
@@ -17,10 +17,10 @@ import javafx.scene.shape.StrokeType;
 
 public class GameViewController {
 
-	private ConnectFour mainApp;
-	private Player currentPlayer;
-	private int boardSize;
-	private ArrayList<Player> players;
+	private ConnectFour mainApp; // reference to the main application
+	private Player currentPlayer; // the current player
+	private int boardSize; // size of the board
+	private Queue<Player> players;
 
 	@FXML
 	private GridPane gameGrid;
@@ -31,9 +31,11 @@ public class GameViewController {
 		// since main app is null
 		// when the initialize method is called
 		boardSize = ConnectFour.getBoardSize();
-		currentPlayer = new Player();
+		// currentPlayer = new Player();
 		createBoard(boardSize);
-		gameGrid.setOnMouseReleased(e->{switchPlayer();});
+		gameGrid.setOnMouseReleased(e -> {
+			switchPlayer();
+		});
 	}
 
 	/**
@@ -95,24 +97,34 @@ public class GameViewController {
 		}
 
 	}
+
+	/**
+	 * Clears the game board
+	 */
+	@FXML
+	private void clear() {
+		createBoard(boardSize);
+	}
+
 	private void switchPlayer() {
-		// TODO Auto-generated method stub
-		
+		players.add(currentPlayer);
+		currentPlayer = players.remove();
 	}
 
 	private void drop(Player player, Pane pane) {
-		if (true) { // if i can place a chip here
-			int column = gameGrid.getColumnIndex(pane);// find what column this
-														// pane is in
-			Circle c = (Circle) getLowestAvailablePosition(1, column);
-			c.setFill(player.getPlayerColor());
-			c.setStrokeType(StrokeType.OUTSIDE);
-			c.setStroke(player.getPlayerColor());
-			c.setStrokeWidth(2);
+		int column = gameGrid.getColumnIndex(pane);// find what column this
+		// pane is in
+		int row = mainApp.getAvailbleRow(column)+1;
+		if (row != -1) { // if i can place a chip here
+
+			Player[][] board = mainApp.getGameBoard();
+			board[row-1][column] = player;
+			Circle c = (Circle) getNodePosition(row, column);
+			setSelected(player,c);
 		}
 	}
 
-	private Node getLowestAvailablePosition(int row, int column) {
+	private Node getNodePosition(int row, int column) {
 		Node result = null;
 		ObservableList<Node> childrens = gameGrid.getChildren();
 
@@ -147,6 +159,9 @@ public class GameViewController {
 		circle.setStroke(player.getPlayerColor());
 		circle.setStrokeWidth(2);
 	}
+	private void setSelected(Player player, Circle c){
+		c.setFill(player.getPlayerColor());
+	}
 
 	private Player getCurrentPlayer() {
 		return currentPlayer;
@@ -154,13 +169,13 @@ public class GameViewController {
 
 	private int getVerticalSize() {
 		int gap = 8;
-		return (600 - (gap * boardSize)) / (boardSize);
+		return (900 - (gap * boardSize)) / (boardSize);
 	}
 
 	private int getHorizontalSize() {
 		int gap = 8;
 		int boardSize = this.boardSize + 1;
-		return (700 - (gap * boardSize)) / boardSize;
+		return (1000 - (gap * boardSize)) / boardSize;
 	}
 
 	/**
@@ -169,8 +184,11 @@ public class GameViewController {
 	 * @param app
 	 */
 	public void setMainApp(ConnectFour app) {
+		// set reference to the mamin application
 		this.mainApp = app;
-		
+		players = mainApp.getPlayers(); // the the player queue
+		currentPlayer = players.remove(); // set the current player from the
+											// queue
 	}
 
 }

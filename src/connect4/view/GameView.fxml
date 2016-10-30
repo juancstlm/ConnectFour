@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.shape.*?>
@@ -7,9 +8,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="800.0" prefWidth="650.0" styleClass="background" stylesheets="@../../../res/MaterialDesignTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="connect4.view.GameViewController">
+<AnchorPane prefHeight="1000.0" prefWidth="1100.0" styleClass="background" stylesheets="@../../../res/MaterialDesignTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="connect4.view.GameViewController">
    <children>
       <GridPane fx:id="gameGrid" alignment="BOTTOM_CENTER" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0">
       </GridPane>
+      <Button layoutX="14.0" layoutY="-5.0" mnemonicParsing="false" onAction="#clear" onMouseReleased="#clear" text="Button" />
    </children>
 </AnchorPane>

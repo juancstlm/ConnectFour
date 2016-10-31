@@ -1,11 +1,13 @@
 package connect4;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.util.LinkedList;
 import java.util.Queue;
 
 import connect4.model.Player;
 import connect4.view.GameViewController;
+import connect4.view.MenuViewController;
 import connect4.view.RootLayoutController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -50,7 +52,21 @@ public class ConnectFour extends Application {
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Connect Four");
 		initRootLayout();
+		//initMenuView();
 		initGameView();
+	}
+
+	private void initMenuView() {
+		try{
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(ConnectFour.class.getResource("view/MenuView.fxml"));
+			
+			AnchorPane menu = (AnchorPane)loader.load();
+			
+			MenuViewController controller = loader.getController();
+			controller.setMainApp(this);
+		}catch(IOException e){e.printStackTrace();}
+		
 	}
 
 	/**

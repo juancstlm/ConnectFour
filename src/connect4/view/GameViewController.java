@@ -20,10 +20,10 @@ public class GameViewController {
 	private ConnectFour mainApp; // reference to the main application
 	private Player currentPlayer; // the current player
 	private int boardSize; // size of the board
-	private Queue<Player> players;
+	private Queue<Player> players; // a queue of players so I can switch 
 
 	@FXML
-	private GridPane gameGrid;
+	private GridPane gameGrid; // THE GUI grid 
 
 	@FXML
 	public void initialize() {
@@ -33,9 +33,6 @@ public class GameViewController {
 		boardSize = ConnectFour.getBoardSize();
 		// currentPlayer = new Player();
 		createBoard(boardSize);
-		gameGrid.setOnMouseReleased(e -> {
-			switchPlayer();
-		});
 	}
 
 	/**
@@ -122,6 +119,9 @@ public class GameViewController {
 			Circle c = (Circle) getNodePosition(row, column);
 			setSelected(player,c);
 		}
+		
+		// CHECK for winner here 
+		switchPlayer();
 	}
 
 	private Node getNodePosition(int row, int column) {

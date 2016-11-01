@@ -3,10 +3,13 @@ package connect4.view;
 import java.util.Queue;
 
 import connect4.ConnectFour;
+import connect4.model.Board;
 import connect4.model.Player;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -24,7 +27,9 @@ public class GameViewController {
 
 	@FXML
 	private GridPane gameGrid; // THE GUI grid 
-
+	@FXML 
+	private Label playerTurn;
+	
 	@FXML
 	public void initialize() {
 		// get the board size from the main application this needs to be static
@@ -111,11 +116,16 @@ public class GameViewController {
 	private void drop(Player player, Pane pane) {
 		int column = gameGrid.getColumnIndex(pane);// find what column this
 		// pane is in
-		int row = mainApp.getAvailbleRow(column)+1;
-		if (mainApp.getAvailbleRow(column) != -1) { // if i can place a chip here
+		int row = mainApp.getGameBoard().getAvailbleRow(column)+1;
+		if (mainApp.getGameBoard().getAvailbleRow(column) != -1) { // if i can place a chip here
 
-			Player[][] board = mainApp.getGameBoard();
-			board[row-1][column] = player;
+			Board board = mainApp.getGameBoard();
+			board.setStack(row-1, column,currentPlayer);
+			board.checkColumns();
+			board.checkDiagnols();
+			board.checkRows();
+			board.checkDraw();
+			//board[row-1][column] = player;
 			Circle c = (Circle) getNodePosition(row, column);
 			setSelected(player,c);
 		}

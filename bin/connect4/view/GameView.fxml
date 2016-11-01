@@ -12,5 +12,6 @@
    <children>
       <GridPane fx:id="gameGrid" alignment="BOTTOM_CENTER" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0">
       </GridPane>
+      <Label fx:id="playerTurn" layoutX="14.0" layoutY="12.0" text="Player 1's Turn" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="12.0" />
    </children>
 </AnchorPane>

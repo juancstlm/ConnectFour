@@ -6,30 +6,21 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="1100.0" prefWidth="1000.0" styleClass="background" stylesheets="@../../../res/MaterialDesignTheme.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+<AnchorPane prefHeight="1100.0" prefWidth="1000.0" styleClass="background" stylesheets="@../../../res/MaterialDesignTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="connect4.view.MenuViewController">
    <children>
-      <Label layoutX="408.0" layoutY="82.0" styleClass="label-header-main" text="Connect 4" />
-      <ColorPicker layoutX="662.0" layoutY="290.0" />
-      <ColorPicker layoutX="662.0" layoutY="390.0" />
-      <Label layoutX="122.0" layoutY="259.0" text="Player 1">
+      <Label layoutX="408.0" layoutY="82.0" styleClass="label-header" text="Connect 4" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="400.0" AnchorPane.topAnchor="80.0" />
+      <ColorPicker fx:id="p1ColorPicker" layoutX="662.0" layoutY="290.0" promptText="Chose Color" style="-fx-border-color: #80D8FF; -fx-border-width: 4; -fx-pref-height: 80;" styleClass="colorpicker" AnchorPane.leftAnchor="650.0" AnchorPane.topAnchor="270.0" />
+      <ColorPicker fx:id="p2ColorPicker" layoutX="662.0" layoutY="388.0" prefHeight="39.0" prefWidth="211.0" AnchorPane.leftAnchor="650.0" AnchorPane.topAnchor="388.0" />
+      <Label layoutX="122.0" layoutY="259.0" text="Player 1" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="280.0">
          <styleClass>
             <String fx:value="label-bright" />
             <String fx:value="label-header" />
          </styleClass>
       </Label>
-      <Label layoutX="119.0" layoutY="375.0" styleClass="label-header" text="Player 2" />
+      <Label layoutX="119.0" layoutY="375.0" styleClass="label-header" text="Player 2" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="380.0" />
       <Label layoutX="376.0" layoutY="582.0" styleClass="label-header" text="Board Size" />
-      <ComboBox layoutX="388.0" layoutY="286.0" prefWidth="150.0">
-         <contextMenu>
-            <ContextMenu>
-              <items>
-                <MenuItem mnemonicParsing="false" text="Unspecified Action" />
-              </items>
-            </ContextMenu>
-         </contextMenu>
-      </ComboBox>
-      <ChoiceBox layoutX="408.0" layoutY="371.0" prefWidth="150.0" />
-      <Button layoutX="444.0" layoutY="959.0" mnemonicParsing="false" styleClass="button-big" text="Start Game" />
+      <Button layoutX="444.0" layoutY="959.0" mnemonicParsing="false" onMouseReleased="#startGame" styleClass="button-big" text="Start Game" />
+      <ChoiceBox fx:id="p1Selector" layoutX="416.0" layoutY="265.0" prefWidth="300.0" style="-fx-background-color: #01579B; -fx-border-color: #80D8FF; -fx-border-width: 4;" styleClass="cb" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="265.0" />
+      <ChoiceBox fx:id="p2Selector" layoutX="416.0" layoutY="392.0" prefWidth="300.0" style="-fx-background-color: #01579B;" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="380.0" />
    </children>
 </AnchorPane>

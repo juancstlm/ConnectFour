@@ -158,7 +158,7 @@ public class GameViewController {
 		int row = board.placeChip(column, player);
 		if (row >=0) { // if i can place a chip here
 
-			Circle c = (Circle) getNodePosition(boardSize-row, column);
+			Circle c = (Circle) getNodePosition(row+1, column);
 			//Circle c = (Circle) getAvilableRowNode(column);
 			setSelected(player, c);
 		}

@@ -222,7 +222,7 @@ public class Board
             }
         }
         board[ConnectFour.getBoardSize()-1][j] = p;//if none of the slots are full, then the bottom one is the first available slot
-        return 0;
+        return ConnectFour.getBoardSize()-1;
         
         
     }

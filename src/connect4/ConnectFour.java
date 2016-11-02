@@ -31,10 +31,10 @@ public class ConnectFour extends Application {
 	private Board gameBoard; 
 
 	public static void main(String[] args) {
-		if (args.length > 2) {
+		if (args.length == 2) {
 			setBoardSize(args[0]);
 			setScoreToWin(args[1]);
-		}
+		} 
 		launch();
 	}
 
@@ -72,7 +72,7 @@ public class ConnectFour extends Application {
 	public void initGameView() {
 		try {
 			
-			rootLayout.getChildren().clear();
+			//rootLayout.getChildren().clear();
 			
 			// Load the layout from the FXML file
 			FXMLLoader loader = new FXMLLoader();
@@ -85,6 +85,7 @@ public class ConnectFour extends Application {
 			contoller.setMainApp(this);
 			// Set the center of the root layout as the game view.
 			rootLayout.setCenter(gameview);
+			rootLayout.getCenter().autosize();
 			//primaryStage.getScene().setRoot(rootLayout);
 		} catch (IOException e) {
 			e.printStackTrace();

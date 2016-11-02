@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.effect.*?>
@@ -8,10 +9,20 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="1100.0" prefWidth="1000.0" styleClass="background" stylesheets="@../../../res/MaterialDesignTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="connect4.view.GameViewController">
+<AnchorPane prefHeight="1250.0" prefWidth="1000.0" styleClass="background" stylesheets="@../../../res/MaterialDesignTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="connect4.view.GameViewController">
    <children>
-      <GridPane fx:id="gameGrid" alignment="BOTTOM_CENTER" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0">
+      <GridPane fx:id="gameGrid" alignment="BOTTOM_CENTER" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="200.0">
       </GridPane>
-      <Label fx:id="playerTurn" layoutX="14.0" layoutY="12.0" text="Player 1's Turn" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="12.0" />
+      <Label fx:id="p1Score" layoutX="420.0" layoutY="39.0" style="-fx-font-size: 100; -fx-font-family: Roboto;" text="0" AnchorPane.topAnchor="8.0" />
+      <Label layoutX="550.0" layoutY="62.0" style="-fx-font-size: 100; -fx-font-family: Roboto; -fx-text-fill: #E3F2FD;" text="0" AnchorPane.topAnchor="8.0" />
+      <Label layoutX="500.0" layoutY="38.0" text="-" />
+      <Circle fx:id="player1Circle" fill="#fffc1f" layoutX="192.0" layoutY="78.0" radius="60.0" stroke="#eeeeee" strokeLineJoin="ROUND" strokeMiterLimit="0.0" strokeWidth="0.0" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="25.0">
+         <effect>
+            <Glow />
+         </effect>
+      </Circle>
+      <Circle fx:id="player2Circle" fill="#ff1f1f" layoutX="871.0" layoutY="84.0" radius="60.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="25.0" />
+      <Button layoutX="450.0" layoutY="130.0" mnemonicParsing="false" onAction="#clear" text="New Game" AnchorPane.topAnchor="150.0" />
+      <Rectangle fx:id="playerIndicator" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="20.0" layoutX="100.0" layoutY="75.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="120.0" AnchorPane.topAnchor="165.0" />
    </children>
 </AnchorPane>

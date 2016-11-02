@@ -37,6 +37,9 @@ public class PlayerFactory {
 
 	public Player createPlayer(String player, Color c) {
 		Player p = null;
+		if(c ==null){
+			return createPlayer(player);
+		}
 		if (player.equals("computer")) {
 			// TODO implement creating a computer to play this game
 		} else {

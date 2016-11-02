@@ -1,6 +1,7 @@
 package connect4.view;
 
 import connect4.ConnectFour;
+import javafx.fxml.FXML;
 
 public class RootLayoutController {
 	

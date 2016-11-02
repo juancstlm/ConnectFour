@@ -1,24 +1,15 @@
 package connect4.model;
-
 import connect4.ConnectFour;
-
 public class Board 
 {
     private Player[][] board;
     private int emptySpaces = 0;
-    private int boardSize;
     
     public Board()
     {
-    	boardSize = ConnectFour.getBoardSize();
-        board = new Player[boardSize][boardSize];
+        board = new Player[ConnectFour.getBoardSize()][ConnectFour.getBoardSize()];
                 
     }
-    
-    public void setStack(int row, int col, Player p){
-    	board[row][col] = p;
-    }
-    
     
     public Player[][] getBoard()
     {
@@ -39,16 +30,7 @@ public class Board
         return emptySpaces;
     }
     
-    public int getAvailbleRow(int column) {
-		for (int r = boardSize - 1; r >= 0; r--) {
-			if (board[r][column] == null) {
-				return r;
-			}
-		}
-		return -1;
-	}
-    
-    public void checkRows()
+    public boolean checkRows()
     {
         for(int i = 0; i < ConnectFour.getBoardSize(); i++)
         {
@@ -65,16 +47,18 @@ public class Board
                 }   
                 if(matches >= ConnectFour.getScoreToWin())
                 {
-                    System.out.println("Player" + " " + board[i][j] + " " + "Wins"); //this will be changed to end the game here + doing something else 
+                    //System.out.println("Player" + " " + board[i][j] + " " + "Wins");
+                    return true;
                 }
                 else continue;
                 
             }
         }
+        return false;
         
     }
     
-    public void checkColumns()
+    public boolean checkColumns()
     {
         for(int j = 0; j < ConnectFour.getBoardSize(); j++)
         {
@@ -91,16 +75,18 @@ public class Board
                 }   
                 if(matches >= ConnectFour.getScoreToWin())
                 {
-                    System.out.println("Player" + " " + board[i][j] + " " + "Wins"); //this will be changed to end the game here + doing something else 
+                    //System.out.println("Player" + " " + board[i][j] + " " + "Wins"); //this will be changed to end the game here + doing something else
+                    return true;
                 }
                 else continue;
                 
             }
         }
+        return false;
         
     }
     
-    public void checkDiagnols()
+    public boolean checkDiagnols()
     {
         for(int j = 0; j < ConnectFour.getBoardSize(); j++) // checks top left to bottom right
         {
@@ -121,8 +107,10 @@ public class Board
                 else matches = 0;
                 if(matches >= ConnectFour.getScoreToWin())
                 {
-                    System.out.println("Player" + " " + board[i][i+j] + " " + "Wins");
+                    //System.out.println("Player" + " " + board[i][i+j] + " " + "Wins");
+                    return true;
                 }
+            
             }
         
         }
@@ -147,7 +135,8 @@ public class Board
                     else matches = 1;
                     if(matches >= ConnectFour.getScoreToWin())
                     {
-                        System.out.println("Player" + " " + board[i+j][j] + " " + "Wins");
+                        //System.out.println("Player" + " " + board[i+j][j] + " " + "Wins");
+                        return true;
                     }
                 }
         }
@@ -173,7 +162,8 @@ public class Board
                 
                 if(matches >= 4)
                 {
-                    System.out.println("Player" + board[i][i+j] + "Wins");
+                    //System.out.println("Player" + board[i][i+j] + "Wins");
+                    return true;
                 }
             }
             
@@ -198,10 +188,12 @@ public class Board
                     matches = 1;
                 if(matches >= 4)
                 {
-                    System.out.println("Player" + " " + board[j-1][j] + " " + "Wins");
+                    //System.out.println("Player" + " " + board[j-1][j] + " " + "Wins");
+                    return true;
                 }
             }
         }
+        return false;
         
         
     }   
@@ -212,6 +204,53 @@ public class Board
         {
             System.out.println("it's a draw!");
         }
+    }
+    
+    public int placeChip(int j, Player p) // j = column
+    {
+        if(board[0][j] != null) // top slot of column is full, so the whole column is full
+        {
+            return -1;
+        }
+        
+        for(int i = 0; i < ConnectFour.getBoardSize(); i++) // if the slot below is full, then the disk on top of the current one must be empty
+        {
+            if(board[i][j] != null)
+            {
+                board[i][j-1] = p;
+                return i;
+            }
+        }
+        board[ConnectFour.getBoardSize()-1][j] = p;//if none of the slots are full, then the bottom one is the first available slot
+        return 0;
+        
+        
+    }
+    
+    public boolean setColumnFull(int j)
+    {
+        if(board[0][j] != null) //the top slot of the column j is not empty, therefore the whole column is full and used
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean setRowUsed(int i) //the top slot of the column i is not empty, therefore the whole column is full and used
+    {
+        int counter = 0;
+        for(int j = 0; j<ConnectFour.getBoardSize();j++)
+        {
+            if(board[i][j] != null)
+            {
+                counter++;
+            }
+        }
+        if(counter == ConnectFour.getBoardSize()-1)
+        {
+            return true;
+        }
+        return false;
     }
     
 }

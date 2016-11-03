@@ -60,7 +60,7 @@ public class GameViewController {
 		final KeyValue kv2 = new KeyValue(playerIndicator.xProperty(), 100);
 		final KeyFrame kf = new KeyFrame(Duration.millis(500), kv);
 		final KeyFrame kf2 = new KeyFrame(Duration.millis(500), kv2);
-		timeline.getKeyFrames().addAll(kf,kf2);
+		timeline.getKeyFrames().addAll(kf, kf2);
 	}
 
 	/**
@@ -141,14 +141,14 @@ public class GameViewController {
 	}
 
 	private void togglePlayerIndicator() {
-		if(timeline.isAutoReverse()){
+		if (timeline.isAutoReverse()) {
 			timeline.play();
-			//timeline.setAutoReverse(false);
-		}else{
+			// timeline.setAutoReverse(false);
+		} else {
 			timeline.play();
 			timeline.setAutoReverse(true);
 		}
-		
+
 	}
 
 	private void drop(Player player, Pane pane) {
@@ -156,18 +156,22 @@ public class GameViewController {
 		Board board = mainApp.getGameBoard();
 		// pane is in
 		int row = board.placeChip(column, player);
-		if (row >=0) { // if i can place a chip here
+		if (row >= 0) { // if i can place a chip here
 
-			Circle c = (Circle) getNodePosition(row+1, column);
-			//Circle c = (Circle) getAvilableRowNode(column);
-			setSelected(player, c);
+			Circle c = (Circle) getNodePosition(row + 1, column);
+			// Circle c = (Circle) getAvilableRowNode(column);
+			c.setFill(currentPlayer.getPlayerColor());
+			// setSelected(player, c);
 		}
-		if (true) {
-			board.checkColumns();
-			board.checkDiagnols();
-			board.checkRows();
+		if (board.checkColumns()) {
+			System.out.println("Player " + currentPlayer + " Won The Game");
+			// End the game and show alert dialogue
+		} else if (board.checkDiagnols()){
+			System.out.println("Player " + currentPlayer + " Won The Game");
+		} else if(board.checkRows()) {
+			System.out.println("Player " + currentPlayer + " Won The Game");
 		}
-		switchPlayer();
+			switchPlayer();
 	}
 
 	private Node getNodePosition(int row, int column) {
@@ -206,7 +210,7 @@ public class GameViewController {
 		circle.setStrokeWidth(2);
 	}
 
-	private void setSelected(Player player, Circle c) {
+	private void setUsed(Player player, Circle c) {
 		c.setFill(player.getPlayerColor());
 	}
 

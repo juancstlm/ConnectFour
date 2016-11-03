@@ -185,6 +185,10 @@ public class ConnectFour extends Application {
 		}
 	}
 
+	/**
+	 * Sets the logical game board 
+	 * @param board
+	 */
 	public void setBoard(Board board) {
 		gameBoard = board;
 	}

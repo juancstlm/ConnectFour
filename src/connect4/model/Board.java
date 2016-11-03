@@ -93,18 +93,18 @@ public class Board
             int matches = 0;
             for(int i = 1; i < ConnectFour.getBoardSize(); i++)
             {
-                if(i + j > ConnectFour.getBoardSize())
+                if(i + j >= ConnectFour.getBoardSize())
                 {
                     break;
                 }
-                else if(board[i][i+j] != null)
+                if(board[i][i+j] != null)
                     {
                         if(board[i-1][i+j-1] == board[i][i+j])
                         {
                             matches++;
                         }
                     }   
-                else matches = 0;
+                else matches = 1;
                 if(matches >= ConnectFour.getScoreToWin())
                 {
                     //System.out.println("Player" + " " + board[i][i+j] + " " + "Wins");
@@ -217,8 +217,8 @@ public class Board
         {
             if(board[i][j] != null)
             {
-                board[i][j-1] = p;
-                return i;
+                board[i-1][j] = p;
+                return i-1;
             }
         }
         board[ConnectFour.getBoardSize()-1][j] = p;//if none of the slots are full, then the bottom one is the first available slot

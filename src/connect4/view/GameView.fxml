@@ -16,7 +16,7 @@
       <Label fx:id="p1Score" layoutX="420.0" layoutY="39.0" style="-fx-font-size: 100; -fx-font-family: Roboto;" text="0" AnchorPane.topAnchor="8.0" />
       <Label layoutX="550.0" layoutY="62.0" style="-fx-font-size: 100; -fx-font-family: Roboto; -fx-text-fill: #E3F2FD;" text="0" AnchorPane.topAnchor="8.0" />
       <Label layoutX="500.0" layoutY="38.0" text="-" />
-      <Circle fx:id="player1Circle" fill="#fffc1f" layoutX="192.0" layoutY="78.0" radius="60.0" stroke="#eeeeee" strokeLineJoin="ROUND" strokeMiterLimit="0.0" strokeWidth="0.0" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="25.0">
+      <Circle fx:id="player1" fill="#fffc1f" layoutX="192.0" layoutY="78.0" radius="60.0" stroke="#eeeeee" strokeLineJoin="ROUND" strokeMiterLimit="0.0" strokeWidth="0.0" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="25.0">
          <effect>
             <Glow />
          </effect>

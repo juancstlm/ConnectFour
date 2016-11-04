@@ -14,6 +14,7 @@ import javafx.scene.paint.Color;
 public class PlayerFactory {
 
 	private LinkedList<Color> colors;
+	private int playerID = 1;
 
 	public PlayerFactory() {
 		colors = new LinkedList<Color>();
@@ -43,9 +44,9 @@ public class PlayerFactory {
 		if (player.equals("computer")) {
 			// TODO implement creating a computer to play this game
 		} else {
-			p = new Player();
+			p = new Player(playerID);
 			p.setPlayerColor(c);
-			
+			playerID++;
 		}
 		return p;
 	}

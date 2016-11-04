@@ -11,7 +11,9 @@ import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -35,6 +37,8 @@ public class GameViewController {
 	@FXML
 	private Label p1Score;
 	@FXML
+	private Label p2Score;
+	@FXML
 	private Rectangle playerIndicator;
 	@FXML
 	private Circle player1Circle;
@@ -52,14 +56,14 @@ public class GameViewController {
 		boardSize = ConnectFour.getBoardSize();
 		createBoard(boardSize);
 	}
-
+	
 	private void createPlayerIndicator() {
 		timeline.setAutoReverse(true);
 		timeline.setCycleCount(1);
 		final KeyValue kv = new KeyValue(playerIndicator.xProperty(), 650);
 		final KeyValue kv2 = new KeyValue(playerIndicator.xProperty(), 100);
-		final KeyFrame kf = new KeyFrame(Duration.millis(500), kv);
-		final KeyFrame kf2 = new KeyFrame(Duration.millis(500), kv2);
+		final KeyFrame kf = new KeyFrame(Duration.millis(400), kv);
+		final KeyFrame kf2 = new KeyFrame(Duration.millis(400), kv2);
 		timeline.getKeyFrames().addAll(kf, kf2);
 	}
 
@@ -131,7 +135,44 @@ public class GameViewController {
 	 */
 	@FXML
 	private void clear() {
-		createBoard(boardSize);
+		gameGrid.getChildren().clear();
+		mainApp.getGameBoard().clear();
+		for (int i = 0; i < boardSize; i++) {
+			for (int j = 0; j < boardSize + 1; j++) {
+				// Create the guide circles differently with panes
+				if (j == 0) {
+					Pane pane = new Pane();
+					// Execute this when the mouse goes over the pane
+					pane.setOnMouseEntered(f -> {
+						setSelected(currentPlayer, pane);
+					});
+					pane.setOnMouseExited(e -> {
+						setHidden(pane);
+					});
+					pane.setOnMouseReleased(e -> {
+						drop(currentPlayer, pane);
+					});
+					Circle circle = new Circle((computeColumnSize() / 2) - 1, Color.web("#0D47A1"));
+
+					circle.setStrokeType(StrokeType.OUTSIDE);
+					circle.setStroke(Color.web("blue", 0.75));
+					circle.setStrokeWidth(2);
+					pane.getChildren().add(circle);
+					circle.centerXProperty().bind(pane.widthProperty().divide(2));
+					circle.centerYProperty().bind(pane.heightProperty().divide(2));
+					gameGrid.add(pane, i, j);
+				} else {
+					Circle circle = new Circle();
+					circle = new Circle((computeColumnSize() / 2) - 1, Color.web("white", 0.90));
+					circle.setStrokeType(StrokeType.OUTSIDE);
+					circle.setStroke(Color.web("blue", 0.25));
+					circle.setStrokeWidth(2);
+					circle.centerXProperty().bind(gameGrid.getColumnConstraints().get(i).prefWidthProperty().divide(2));
+					circle.centerYProperty().bind(gameGrid.getColumnConstraints().get(i).prefWidthProperty().divide(2));
+					gameGrid.add(circle, i, j);
+				}
+			}
+		}
 	}
 
 	private void switchPlayer() {
@@ -157,21 +198,31 @@ public class GameViewController {
 		// pane is in
 		int row = board.placeChip(column, player);
 		if (row >= 0) { // if i can place a chip here
-
 			Circle c = (Circle) getNodePosition(row + 1, column);
-			// Circle c = (Circle) getAvilableRowNode(column);
 			c.setFill(currentPlayer.getPlayerColor());
-			// setSelected(player, c);
 		}
 		if (board.checkColumns()) {
-			System.out.println("Player " + currentPlayer + " Won The Game");
-			// End the game and show alert dialogue
-		} else if (board.checkDiagnols()){
-			System.out.println("Player " + currentPlayer + " Won The Game");
-		} else if(board.checkRows()) {
-			System.out.println("Player " + currentPlayer + " Won The Game");
-		}
+			showWinDialogue("Columns");
+			
+		} else if (board.checkDiagonals()) {
+			showWinDialogue("Diagonal");
+		} else if (board.checkRows()) {
+			showWinDialogue("Rows");
+		} else {
 			switchPlayer();
+		}
+
+	}
+
+	private void showWinDialogue(String s) {
+		//incraseScore(currentPlayer);
+		Alert alert = new Alert(AlertType.WARNING);
+		alert.initOwner(mainApp.getPrimaryStage());
+		alert.setTitle("PLayer " + currentPlayer + " Wins");
+		alert.setHeaderText("PLayer " + currentPlayer + " Wins by " + s +"\n Press ok to start a new Game");
+		// alert.setContentText("Please select a item in the table.");
+		alert.showAndWait();
+		
 	}
 
 	private Node getNodePosition(int row, int column) {
@@ -258,6 +309,15 @@ public class GameViewController {
 	private void setPlayerColors() {
 		player1Circle.setFill(currentPlayer.getPlayerColor());
 		player2Circle.setFill(players.peek().getPlayerColor());
+	}
+	
+	public void incraseScore(Player p){
+		p.increaseScore();
+		if(p.getPlayerID() == 1){
+			p1Score.setText(Integer.toString(p.getScore()));
+		} else if(p.getPlayerID() == 2 ){
+			p2Score.setText(Integer.toString(p.getScore()));
+		}
 	}
 
 }

@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="1200.0" maxWidth="1000.0" minHeight="1200.0" minWidth="1000.0" prefHeight="1200.0" prefWidth="1000.0" styleClass="background" stylesheets="@../../../res/MaterialDesignTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="connect4.view.MenuViewController">
+<AnchorPane prefHeight="1250.0" prefWidth="1000.0" styleClass="background" stylesheets="@../../../res/MaterialDesignTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="connect4.view.MenuViewController">
    <children>
       <Label layoutX="408.0" layoutY="82.0" styleClass="label-header" text="Connect 4" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="400.0" AnchorPane.topAnchor="80.0" />
       <ColorPicker fx:id="p1ColorPicker" layoutX="662.0" layoutY="290.0" promptText="Chose Color" style="-fx-border-color: #80D8FF; -fx-border-width: 4; -fx-pref-height: 80;" styleClass="colorpicker" AnchorPane.leftAnchor="650.0" AnchorPane.topAnchor="270.0" />

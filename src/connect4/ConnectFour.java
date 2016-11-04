@@ -17,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 public class ConnectFour extends Application {
 
@@ -79,6 +80,7 @@ public class ConnectFour extends Application {
 			loader.setLocation(ConnectFour.class.getResource("view/GameView.fxml"));
 			// Create the game view
 			AnchorPane gameview = (AnchorPane) loader.load();
+			//gameview.getStylesheets().add(ConnectFour.class.getResource("/res/MaterialDesignTheme.css").toExternalForm());
 			// get the controller for the game view
 			GameViewController contoller = loader.getController();
 			// give the controller access to the main app.
@@ -191,6 +193,10 @@ public class ConnectFour extends Application {
 	 */
 	public void setBoard(Board board) {
 		gameBoard = board;
+	}
+
+	public Stage getPrimaryStage() {
+		return primaryStage;
 	}
 
 }

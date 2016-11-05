@@ -210,9 +210,25 @@ public class GameViewController {
 				showWinDialogue("Diagonal");
 			} else if (board.checkRows()) {
 				showWinDialogue("Rows");
-			} else {
+			} else if(board.checkDraw()){
+				showDrawDialouge();
+			}
+			else {
 				switchPlayer();
 			}
+		}
+	}
+
+	private void showDrawDialouge() {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.initOwner(mainApp.getPrimaryStage());
+		alert.setTitle("Its A DRAW");
+		alert.setHeaderText("Press ok to start a new Game");
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.OK){
+		    clear();
+		} else {
+		    
 		}
 	}
 

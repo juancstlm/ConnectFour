@@ -25,59 +25,64 @@ public class Board {
 		for (int i = 0; i < ConnectFour.getBoardSize(); i++)
 
 			for (int j = 0; j < ConnectFour.getBoardSize(); j++) {
-				board[i][j] = null;
-				emptySpaces++;
+				if (board[i][j] == null) {
 
+					emptySpaces++;
+				}
 			}
-
 		return emptySpaces;
 	}
-	public Player checkNextDiagonal(int row, int col){
-		return board[row+1][col+1];
+
+	public Player checkNextDiagonal(int row, int col) {
+		return board[row + 1][col + 1];
 	}
-	public Player checkNextDiagonal1(int row, int col){
-		return board[row+1][col-1];
+
+	public Player checkNextDiagonal1(int row, int col) {
+		return board[row + 1][col - 1];
 	}
-	
+
 	public boolean checkDiagonals() {
 		int matches;
-		// Itterate through the 0th row down to the last row where winning by the score is possible
+		// Itterate through the 0th row down to the last row where winning by
+		// the score is possible
 		for (int row = 0; row <= boardSize - scoreToWin; row++) {
-			// iterate trhough all of the columnns from the 0th column to the las possible column to win
-			for(int column = 0; column < scoreToWin; column++){
-				if(board[row][column]!=null){
-					//there is a node here
+			// iterate trhough all of the columnns from the 0th column to the
+			// las possible column to win
+			for (int column = 0; column < scoreToWin; column++) {
+				if (board[row][column] != null) {
+					// there is a node here
 					matches = 1;
-					for(int w = 0 ; w < scoreToWin-1; w++ ){
-						if (board[row][column]==checkNextDiagonal(row+w, column+w)){
+					for (int w = 0; w < scoreToWin - 1; w++) {
+						if (board[row][column] == checkNextDiagonal(row + w, column + w)) {
 							matches++;
 						}
 					}
-					
-					if(matches == scoreToWin){
+
+					if (matches == scoreToWin) {
 						return true;
 					}
-					
+
 				}
 			}
 		}
 
 		for (int row = 0; row <= boardSize - scoreToWin; row++) {
-			// iterate trhough all of the columnns from the 0th column to the las possible column to win
-			for(int column = boardSize-1; column >= boardSize-scoreToWin; column--){
-				if(board[row][column]!=null){
-					//there is a node here
+			// iterate trhough all of the columnns from the 0th column to the
+			// las possible column to win
+			for (int column = boardSize - 1; column >= boardSize - scoreToWin; column--) {
+				if (board[row][column] != null) {
+					// there is a node here
 					matches = 1;
-					for(int w = 0 ; w < scoreToWin-1; w++ ){
-						if (board[row][column]==checkNextDiagonal1(row+w, column-w)){
+					for (int w = 0; w < scoreToWin - 1; w++) {
+						if (board[row][column] == checkNextDiagonal1(row + w, column - w)) {
 							matches++;
 						}
 					}
-					
-					if(matches == scoreToWin){
+
+					if (matches == scoreToWin) {
 						return true;
 					}
-					
+
 				}
 			}
 		}
@@ -233,10 +238,11 @@ public class Board {
 
 	}
 
-	public void checkDraw() {
-		if (emptySpaces == 0) {
-			System.out.println("it's a draw!");
+	public boolean checkDraw() {
+		if (getEmptySpaces() == 0) {
+			return true;
 		}
+		return false;
 	}
 
 	public int placeChip(int j, Player p) // j = column

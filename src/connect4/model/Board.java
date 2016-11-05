@@ -44,7 +44,7 @@ public class Board {
 		// Itterate through the 0th row down to the last row where winning by the score is possible
 		for (int row = 0; row <= boardSize - scoreToWin; row++) {
 			// iterate trhough all of the columnns from the 0th column to the las possible column to win
-			for(int column = 0; column < scoreToWin+1; column++){
+			for(int column = 0; column < scoreToWin; column++){
 				if(board[row][column]!=null){
 					//there is a node here
 					matches = 1;

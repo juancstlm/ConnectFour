@@ -288,7 +288,7 @@ public class GameViewController {
 		int gap = 8;
 		int columnSize = 0;
 
-		int boardWidth = 900;
+		int boardWidth = 600;
 		columnSize = (boardWidth - (gap * boardSize)) / boardSize;
 		return columnSize;
 	}

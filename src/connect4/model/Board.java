@@ -119,7 +119,7 @@ public class Board {
 
 	public boolean checkColumns() {
 		for (int j = 0; j < ConnectFour.getBoardSize(); j++) {
-			int matches = 0;
+			int matches = 1;
 			for (int i = 1; i < ConnectFour.getBoardSize(); i++) {
 				if (board[i][j] != null) // this checks whether or not its
 											// empty, since im using a int array

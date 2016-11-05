@@ -36,7 +36,7 @@ public class GameViewController {
 	@FXML
 	private GridPane gameGrid; // THE GUI grid
 	@FXML
-	private Label p1Score;
+	private Label p1Score; //p1scre
 	@FXML
 	private Label p2Score;
 	@FXML

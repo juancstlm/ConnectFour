@@ -1,5 +1,6 @@
 package connect4.view;
 
+import java.util.Optional;
 import java.util.Queue;
 
 import connect4.ConnectFour;
@@ -14,6 +15,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -30,7 +32,6 @@ public class GameViewController {
 	private Player currentPlayer; // the current player
 	private int boardSize; // size of the board
 	private Queue<Player> players; // a queue of players so I can switch
-	final Timeline timeline = new Timeline();
 
 	@FXML
 	private GridPane gameGrid; // THE GUI grid
@@ -38,8 +39,6 @@ public class GameViewController {
 	private Label p1Score;
 	@FXML
 	private Label p2Score;
-	@FXML
-	private Rectangle playerIndicator;
 	@FXML
 	private Circle player1Circle;
 	@FXML
@@ -50,21 +49,8 @@ public class GameViewController {
 		// get the board size from the main application this needs to be static
 		// since main app is null
 		// when the initialize method is called
-
-		// Create the player turn indicator
-		createPlayerIndicator();
 		boardSize = ConnectFour.getBoardSize();
 		createBoard(boardSize);
-	}
-	
-	private void createPlayerIndicator() {
-		timeline.setAutoReverse(true);
-		timeline.setCycleCount(1);
-		final KeyValue kv = new KeyValue(playerIndicator.xProperty(), 650);
-		final KeyValue kv2 = new KeyValue(playerIndicator.xProperty(), 100);
-		final KeyFrame kf = new KeyFrame(Duration.millis(400), kv);
-		final KeyFrame kf2 = new KeyFrame(Duration.millis(400), kv2);
-		timeline.getKeyFrames().addAll(kf, kf2);
 	}
 
 	/**
@@ -176,22 +162,39 @@ public class GameViewController {
 	}
 
 	private void switchPlayer() {
+		if(currentPlayer.getPlayerID() == 1){
+			deselectCircle(player2Circle);
+			selectCircle(player1Circle);
+		}else if(currentPlayer.getPlayerID() == 2){
+			deselectCircle(player1Circle);
+			selectCircle(player2Circle);
+		}
 		players.add(currentPlayer);
 		currentPlayer = players.remove();
-		togglePlayerIndicator();
 	}
-
-	private void togglePlayerIndicator() {
-		if (timeline.isAutoReverse()) {
-			timeline.play();
-			// timeline.setAutoReverse(false);
-		} else {
-			timeline.play();
-			timeline.setAutoReverse(true);
-		}
-
+	
+	private void deselectCircle(Circle c){
+		final Timeline timeline = new Timeline();
+		timeline.setCycleCount(1);
+		timeline.setAutoReverse(false);
+		final KeyValue kv = new KeyValue(c.strokeWidthProperty(), 0);
+		final KeyFrame kf = new KeyFrame(Duration.millis(200), kv);
+		timeline.getKeyFrames().add(kf);
+		timeline.play();
 	}
-
+	
+	private void selectCircle(Circle c){
+		c.setStroke(Color.web("#2196F3"));
+		c.setStrokeType(StrokeType.INSIDE);
+		final Timeline timeline = new Timeline();
+		timeline.setCycleCount(1);
+		timeline.setAutoReverse(false);
+		final KeyValue kv = new KeyValue(c.strokeWidthProperty(), 8);
+		final KeyFrame kf = new KeyFrame(Duration.millis(300), kv);
+		timeline.getKeyFrames().add(kf);
+		timeline.play();
+	}
+	
 	private void drop(Player player, Pane pane) {
 		int column = gameGrid.getColumnIndex(pane);// find what column this
 		Board board = mainApp.getGameBoard();
@@ -200,29 +203,31 @@ public class GameViewController {
 		if (row >= 0) { // if i can place a chip here
 			Circle c = (Circle) getNodePosition(row + 1, column);
 			c.setFill(currentPlayer.getPlayerColor());
+			if (board.checkColumns()) {
+				showWinDialogue("Columns");
+				
+			} else if (board.checkDiagonals()) {
+				showWinDialogue("Diagonal");
+			} else if (board.checkRows()) {
+				showWinDialogue("Rows");
+			} else {
+				switchPlayer();
+			}
 		}
-		if (board.checkColumns()) {
-			showWinDialogue("Columns");
-			
-		} else if (board.checkDiagonals()) {
-			showWinDialogue("Diagonal");
-		} else if (board.checkRows()) {
-			showWinDialogue("Rows");
-		} else {
-			switchPlayer();
-		}
-
 	}
 
 	private void showWinDialogue(String s) {
-		//incraseScore(currentPlayer);
-		Alert alert = new Alert(AlertType.WARNING);
+		incraseScore(currentPlayer);
+		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.initOwner(mainApp.getPrimaryStage());
-		alert.setTitle("PLayer " + currentPlayer + " Wins");
-		alert.setHeaderText("PLayer " + currentPlayer + " Wins by " + s +"\n Press ok to start a new Game");
-		// alert.setContentText("Please select a item in the table.");
-		alert.showAndWait();
-		
+		alert.setTitle("PLayer " + currentPlayer.getPlayerID() + " Wins");
+		alert.setHeaderText("PLayer " + currentPlayer.getPlayerID() + " Wins by " + s +"\n Press ok to start a new Game");
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.OK){
+		    clear();
+		} else {
+		    
+		}
 	}
 
 	private Node getNodePosition(int row, int column) {
@@ -303,6 +308,7 @@ public class GameViewController {
 		this.mainApp = app;
 		players = mainApp.getPlayers(); // the the player queue
 		currentPlayer = players.remove(); // set the current player from the
+		selectCircle(player1Circle);
 		setPlayerColors(); // queue
 	}
 

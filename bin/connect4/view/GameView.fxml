@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.paint.*?>
@@ -13,12 +14,15 @@
    <children>
       <GridPane fx:id="gameGrid" alignment="BOTTOM_CENTER" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="200.0">
       </GridPane>
-      <Label fx:id="p1Score" layoutX="420.0" layoutY="39.0" style="-fx-font-size: 100; -fx-font-family: Roboto;" text="0" AnchorPane.topAnchor="8.0" />
-      <Label layoutX="550.0" layoutY="62.0" style="-fx-font-size: 100; -fx-font-family: Roboto; -fx-text-fill: #E3F2FD;" text="0" AnchorPane.topAnchor="8.0" />
-      <Label layoutX="500.0" layoutY="38.0" text="-" />
-      <Circle fx:id="player1Circle" fill="#fffc1f" layoutX="192.0" layoutY="78.0" radius="60.0" stroke="#eeeeee" strokeLineJoin="ROUND" strokeMiterLimit="0.0" strokeWidth="0.0" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="25.0" />
-      <Circle fx:id="player2Circle" fill="#ff1f1f" layoutX="871.0" layoutY="84.0" radius="60.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="25.0" />
-      <Button layoutX="450.0" layoutY="130.0" mnemonicParsing="false" onAction="#clear" text="New Game" AnchorPane.topAnchor="150.0" />
-      <Rectangle fx:id="playerIndicator" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="20.0" layoutX="100.0" layoutY="75.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="120.0" AnchorPane.topAnchor="165.0" />
+      <Label fx:id="p1Score" layoutX="420.0" layoutY="39.0" style="-fx-font-size: 100; -fx-font-family: Roboto;" text="0" AnchorPane.leftAnchor="285.0" AnchorPane.topAnchor="8.0" />
+      <Label fx:id="p2Score" layoutX="550.0" layoutY="62.0" style="-fx-font-size: 100; -fx-font-family: Roboto; -fx-text-fill: #E3F2FD;" text="0" AnchorPane.rightAnchor="285.0" AnchorPane.topAnchor="8.0" />
+      <Circle fx:id="player1Circle" fill="#fffc1f" layoutX="192.0" layoutY="78.0" radius="60.0" stroke="#eeeeee" strokeLineJoin="ROUND" strokeMiterLimit="0.0" strokeWidth="0.0" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="24.0" />
+      <Circle fx:id="player2Circle" fill="#ff1f1f" layoutX="871.0" layoutY="84.0" radius="60.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="24.0" />
+      <Button layoutX="288.0" layoutY="130.0" mnemonicParsing="false" onAction="#clear" style="-fx-background-color: #0D47A1; -fx-border-color: #0D47A1;" text="New Game" AnchorPane.topAnchor="130.0" />
+      <Text fill="WHITE" layoutX="350.0" layoutY="157.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":" textAlignment="CENTER" AnchorPane.leftAnchor="339.0" AnchorPane.rightAnchor="339.44921875" AnchorPane.topAnchor="20.0">
+         <font>
+            <Font name="Roboto Black" size="72.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

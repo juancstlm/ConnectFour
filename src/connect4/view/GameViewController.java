@@ -282,29 +282,6 @@ public class GameViewController {
 		circle.setStrokeWidth(2);
 	}
 
-	private void setUsed(Player player, Circle c) {
-		c.setFill(player.getPlayerColor());
-	}
-
-	private Player getCurrentPlayer() {
-		return currentPlayer;
-	}
-
-	private int getVerticalSize() {
-		int gap = 8;
-		// DEBUG ONLY
-		System.out.println(gameGrid.getPrefWidth());
-		System.out.println(gameGrid.getWidth());
-		double gameGridSize = gameGrid.getWidth();
-		return (950 - (gap * boardSize)) / (boardSize);
-	}
-
-	private int getHorizontalSize() {
-		int gap = 8;
-		int boardSize = this.boardSize + 1;
-		return (900 - (gap * boardSize)) / boardSize;
-	}
-
 	private int computeColumnSize() {
 		int gap = 8;
 		int columnSize = 0;

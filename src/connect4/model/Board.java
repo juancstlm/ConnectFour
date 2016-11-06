@@ -17,6 +17,72 @@ public class Board {
 		board = new Player[ConnectFour.getBoardSize()][ConnectFour.getBoardSize()];
 	}
 
+	public boolean checkDiagnols() {
+		for (int j = 0; j < ConnectFour.getBoardSize(); j++) // checks top left
+																// to bottom
+																// right
+		{
+			int matches = 1;
+			for (int i = 1; i < ConnectFour.getBoardSize(); i++) {
+				if (i + j >= ConnectFour.getBoardSize()) {
+					break;
+				}
+				if (board[i][i + j] != null) {
+					if (board[i - 1][i + j - 1] == board[i][i + j]) {
+						matches++;
+					}
+				} else
+					matches = 1;
+				if (matches >= ConnectFour.getScoreToWin()) {
+					// System.out.println("Player" + " " + board[i][i+j] + " " +
+					// "Wins");
+					return true;
+				}
+			}
+		}
+		for (int i = 0; i < ConnectFour.getBoardSize(); i++) {
+			int matches = 1;
+			for (int j = 1; j < ConnectFour.getBoardSize(); i++) {
+				if (i + j >= ConnectFour.getBoardSize()) {
+					break;
+				}
+				if (board[i + j][j] != null) {
+					if (board[i + j - 1][j - 1] == board[i + j][j]) {
+						matches++;
+					}
+				} else
+					matches = 1;
+				if (matches >= ConnectFour.getScoreToWin()) {
+					// System.out.println("Player" + " " + board[i+j][j] + " " +
+					// "Wins");
+					return true;
+				}
+			}
+		}
+		for (int j = 0; j < ConnectFour.getBoardSize(); j++)// checks top right
+															// to bottom left
+		{
+			int matches = 1;
+			for (int i = 1; i < ConnectFour.getBoardSize(); i++) {
+				if (j - i < 0) {
+					break;
+				}
+				if (board[i][j - i] != null) {
+					if (board[i - 1][j - i + 1] == board[i][j - i]) {
+						matches++;
+					}
+				} else
+					matches = 1;
+				if (matches >= ConnectFour.getScoreToWin()) {
+					// System.out.println("Player" + board[i][i+j] + "Wins");
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+
 	private int getEmptySpaces() {
 		for (int i = 0; i < ConnectFour.getBoardSize(); i++)
 
@@ -69,9 +135,11 @@ public class Board {
 				if (board[row][column] != null) {
 					// there is a node here
 					matches = 1;
-					for (int w = 0; w < scoreToWin - 1; w++) {
-						if (board[row][column] == checkNextDiagonal1(row + w, column - w)) {
+					for (int w = 1; w < scoreToWin-1; w++) {
+						if (board[row][column] == board[row-w][column+w]) {
 							matches++;
+						} else{
+							break;
 						}
 					}
 

@@ -36,7 +36,7 @@ public class Board {
 				if (matches >= ConnectFour.getScoreToWin()) {
 					// System.out.println("Player" + " " + board[i][i+j] + " " +
 					// "Wins");
-					return true;
+					return true;	
 				}
 			}
 		}

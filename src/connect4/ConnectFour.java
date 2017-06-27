@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import connect4.model.Board;
+import connect4.model.GameBoard;
 import connect4.model.Player;
 import connect4.view.GameViewController;
 import connect4.view.MenuViewController;
@@ -21,26 +22,23 @@ import javafx.stage.Window;
 
 public class ConnectFour extends Application {
 
-	private BorderPane rootLayout; // the root pane in witch the application is
-									// run
+	private BorderPane rootLayout; // the root pane
 	private Stage primaryStage; // the stage were the game is played
 	private static int boardSize = 7; // board size length and width
 	private static int scoreToWin = 4; // number of connections in a row need to
 										// win
 	private Queue<Player> players; // The players of the game
-	//private Player[][] gameboard; // The game board
-	private Board gameBoard; 
+	// private Player[][] gameboard; // The game board
+	private Board gameBoard;
+	private GameBoard board;
 
 	public static void main(String[] args) {
-		if (args.length == 2) {
-			setBoardSize(args[0]);
-			setScoreToWin(args[1]);
-		} 
 		launch();
 	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		board = new GameBoard();
 		players = new LinkedList<Player>();
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Connect Four");
@@ -58,9 +56,8 @@ public class ConnectFour extends Application {
 			MenuViewController controller = loader.getController();
 			controller.setMainApp(this);
 
-			
 			rootLayout.setCenter(menu);
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -72,15 +69,15 @@ public class ConnectFour extends Application {
 	 */
 	public void initGameView() {
 		try {
-			
-			//rootLayout.getChildren().clear();
-			
+
+			// rootLayout.getChildren().clear();
+
 			// Load the layout from the FXML file
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(ConnectFour.class.getResource("view/GameView.fxml"));
 			// Create the game view
 			AnchorPane gameview = (AnchorPane) loader.load();
-			//gameview.getStylesheets().add(ConnectFour.class.getResource("/res/MaterialDesignTheme.css").toExternalForm());
+			// gameview.getStylesheets().add(ConnectFour.class.getResource("/res/MaterialDesignTheme.css").toExternalForm());
 			// get the controller for the game view
 			GameViewController contoller = loader.getController();
 			// give the controller access to the main app.
@@ -88,7 +85,7 @@ public class ConnectFour extends Application {
 			// Set the center of the root layout as the game view.
 			rootLayout.setCenter(gameview);
 			rootLayout.getCenter().autosize();
-			//primaryStage.getScene().setRoot(rootLayout);
+			// primaryStage.getScene().setRoot(rootLayout);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -182,13 +179,14 @@ public class ConnectFour extends Application {
 	}
 
 	public void addPlayer(Player p) {
-		if(players.size()<=2){
+		if (players.size() <= 2) {
 			players.add(p);
 		}
 	}
 
 	/**
-	 * Sets the logical game board 
+	 * Sets the logical game board
+	 * 
 	 * @param board
 	 */
 	public void setBoard(Board board) {

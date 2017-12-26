@@ -1,257 +1,372 @@
 package connect4.model;
 
-import connect4.ConnectFour;
-
 public class Board {
-	private Player[][] board;
-	private int emptySpaces = 0;
-	private int boardSize = ConnectFour.getBoardSize();
-	private int scoreToWin = ConnectFour.getScoreToWin();
+    private Node gameboard[];
+    private static final int HEIGHT = 6;
+    private static final int WIDTH = 7;
+    private static final int SCORE_TO_WIN = 4;
+    private Node NILL;
+    private int scoreToWin;
+    private int height;
+    private int width;
 
-	public Board() {
-		board = new Player[ConnectFour.getBoardSize()][ConnectFour.getBoardSize()];
+    private boolean winByCols =  false;
+    private boolean winbyDiag = false;
+    private boolean winbyRow = false;
+    private boolean draw = false;
 
-	}
 
-	public void clear() {
-		board = new Player[ConnectFour.getBoardSize()][ConnectFour.getBoardSize()];
-	}
+    public Board() {
+        this(HEIGHT, WIDTH, SCORE_TO_WIN);
+    }
 
-	public boolean checkDiagnols() {
-		for (int j = 0; j < ConnectFour.getBoardSize(); j++) // checks top left
-																// to bottom
-																// right
-		{
-			int matches = 1;
-			for (int i = 1; i < ConnectFour.getBoardSize(); i++) {
-				if (i + j >= ConnectFour.getBoardSize()) {
-					break;
-				}
-				if (board[i][i + j] != null) {
-					if (board[i - 1][i + j - 1] == board[i][i + j]) {
-						matches++;
-					}
-				} else
-					matches = 1;
-				if (matches >= ConnectFour.getScoreToWin()) {
-					// System.out.println("Player" + " " + board[i][i+j] + " " +
-					// "Wins");
-					return true;	
-				}
-			}
-		}
-		for (int i = 0; i < ConnectFour.getBoardSize(); i++) {
-			int matches = 1;
-			for (int j = 1; j < ConnectFour.getBoardSize(); i++) {
-				if (i + j >= ConnectFour.getBoardSize()) {
-					break;
-				}
-				if (board[i + j][j] != null) {
-					if (board[i + j - 1][j - 1] == board[i + j][j]) {
-						matches++;
-					}
-				} else
-					matches = 1;
-				if (matches >= ConnectFour.getScoreToWin()) {
-					// System.out.println("Player" + " " + board[i+j][j] + " " +
-					// "Wins");
-					return true;
-				}
-			}
-		}
-		for (int j = 0; j < ConnectFour.getBoardSize(); j++)// checks top right
-															// to bottom left
-		{
-			int matches = 1;
-			for (int i = 1; i < ConnectFour.getBoardSize(); i++) {
-				if (j - i < 0) {
-					break;
-				}
-				if (board[i][j - i] != null) {
-					if (board[i - 1][j - i + 1] == board[i][j - i]) {
-						matches++;
-					}
-				} else
-					matches = 1;
-				if (matches >= ConnectFour.getScoreToWin()) {
-					// System.out.println("Player" + board[i][i+j] + "Wins");
-					return true;
-				}
-			}
-		}
-		
-		return false;
-	}
+    public Board(int height, int width) {
+        this(height, width, SCORE_TO_WIN);
+    }
 
-	private int getEmptySpaces() {
-		for (int i = 0; i < ConnectFour.getBoardSize(); i++)
+    public Board(int height, int width, int scoreToWin) {
 
-			for (int j = 0; j < ConnectFour.getBoardSize(); j++) {
-				if (board[i][j] == null) {
+        // Creating the NILL Node
+        NILL = new Node(-1);
+        NILL.setTop(NILL);
+        NILL.setLeft(NILL);
+        NILL.setBottom(NILL);
+        NILL.setRight(NILL);
+        NILL.setHeight(-1);
 
-					emptySpaces++;
-				}
-			}
-		return emptySpaces;
-	}
+        this.height = height;
+        this.width = width;
+        this.scoreToWin = scoreToWin;
+        gameboard = new Node[this.width];
 
-	private Player checkNextDiagonal(int row, int col) {
-		return board[row + 1][col + 1];
-	}
+        for(int i = 0; i<width;i++){
+            gameboard[i] = NILL;
+        }
+    }
 
-	private Player checkNextDiagonal1(int row, int col) {
-		return board[row + 1][col - 1];
-	}
+    private void checkWinConditions(Node n){
+        checkDiag(n);
+        checkVertical(n);
+    }
 
-	public boolean checkDiagonals() {
-		int matches;
-		// Itterate through the 0th row down to the last row where winning by
-		// the score is possible
-		for (int row = 0; row <= boardSize - scoreToWin; row++) {
-			// iterate trhough all of the columnns from the 0th column to the
-			// las possible column to win
-			for (int column = 0; column < scoreToWin; column++) {
-				if (board[row][column] != null) {
-					// there is a node here
-					matches = 1;
-					for (int w = 0; w < scoreToWin - 1; w++) {
-						if (board[row][column] == checkNextDiagonal(row + w, column + w)) {
-							matches++;
-						}
-					}
+    private void checkVertical(Node n){
+        int score = 1;
+        if(n.getTop().getPlayer() == n.getPlayer()){
+            Node check = n.getTop();
+            score++;
+            while(check.getTop().getPlayer() == n.getPlayer() && check != NILL ){
+                check = check.getTop();
+                score++;
+            }
 
-					if (matches == scoreToWin) {
-						return true;
-					}
+            if(score >= scoreToWin){
+                winByCols = score >= scoreToWin;
+                return;
+            }
+        } else if(n.getBottom().getPlayer() == n.getPlayer()){
+            score = 1;
+            Node check = n.getBottom();
+            score++;
+            while(check.getBottom().getPlayer() == n.getPlayer() && check != NILL ){
+                score++;
+                check = check.getBottom();
+            }
+            if(score >= scoreToWin){
+                winByCols = score >= scoreToWin;
+                return;
+            }
+        }
 
-				}
-			}
-		}
+    }
 
-		for (int row = 0; row <= boardSize - scoreToWin; row++) {
-			// iterate trhough all of the columnns from the 0th column to the
-			// las possible column to win
-			for (int column = boardSize - 1; column >= boardSize - scoreToWin; column--) {
-				if (board[row][column] != null) {
-					// there is a node here
-					matches = 1;
-					for (int w = 1; w < scoreToWin-1; w++) {
-						if (board[row][column] == board[row-w][column+w]) {
-							matches++;
-						} else{
-							break;
-						}
-					}
 
-					if (matches == scoreToWin) {
-						return true;
-					}
+    private void checkDiag(Node n){
+        //TODO fully implement this
+        int score = 1;
+        if(n.getTopLeft().getPlayer() == n.getPlayer()){
+            Node check = n.getTopLeft();
+            score++;
+            while(check.getTopLeft().getPlayer() == n.getPlayer() && check != NILL){
+                check = check.getTopLeft();
+                score++;
+            }
+            if(score >= scoreToWin){
+                winbyDiag = score >= scoreToWin;
+                return;
+            }
+        } else if (n.getTopRight().getPlayer() == n.getPlayer()){
+            score = 1;
+            Node check = n.getTopRight();
+            score++;
+            while(check.getTopRight().getPlayer() == n.getPlayer() && check != NILL){
+                check = check.getTopRight();
+                score++;
+            }
+            if(score >= scoreToWin){
+                winbyDiag = score >= scoreToWin;
+                return;
+            }
 
-				}
-			}
-		}
-		return false;
-	}
+        } else if(n.getBottomLeft().getPlayer() == n.getPlayer()){
+            score = 1;
+            Node check = n.getBottomLeft();
+            score++;
+            while(check.getBottomLeft().getPlayer() == n.getPlayer() && check != NILL){
+                check = check.getBottomLeft();
+                score++;
+            }
+            if(score >= scoreToWin){
+                winbyDiag = score >= scoreToWin;
+                return;
+            }
 
-	public boolean checkRows() {
-		for (int i = 0; i < ConnectFour.getBoardSize(); i++) {
-			int matches = 1;
-			for (int j = 1; j < ConnectFour.getBoardSize(); j++) {
-				if (board[i][j] != null) // this checks whether or not its
-											// empty, since im using a int array
-											// atm
-				{
-					if (board[i][j] == board[i][j - 1]) // we would need to
-														// change these to
-														// colors
-					{
-						matches++;
-					} else
-						matches = 1;
-				}
-				if (matches >= ConnectFour.getScoreToWin()) {
-					// System.out.println("Player" + " " + board[i][j] + " " +
-					// "Wins");
-					return true;
-				} else
-					continue;
-			}
-		}
-		return false;
+        } else if(n.getBottomRight().getPlayer() == n.getPlayer()){
+            score = 1;
+            Node check = n.getBottomRight();
+            score++;
+            while(check.getBottomRight().getPlayer() == n.getPlayer() && check != NILL){
+                check = check.getBottomRight();
+                score++;
+            }
+            if(score >= scoreToWin){
+                winbyDiag = score >= scoreToWin;
+                return;
+            }
+        }
+    }
 
-	}
+    public int insert(int col, int player){
+        Node n = new Node(player);
+        n.setTop(NILL);
+        Node parent = getHighestNode(col);
+        if(parent == NILL){
+            n.setBottom(NILL);
+            n.setBottomLeft(NILL);
+            n.setBottomRight(NILL);
+            Node left = getNode(col-1, 0);
+            Node right = getNode(col+1,0);
+            Node topRight = getNode(col+1, 1);
+            Node topLeft = getNode(col-1, 1);
+            if(left != NILL) {
+                left.setRight(n);
+            } if(right != NILL){
+                right.setLeft(n);
+            } if(topLeft != NILL){
+                topLeft.setBottomRight(n);
+            } if(topRight != NILL){
+                topRight.setBottomLeft(n);
+            }
+            n.setLeft(left);
+            n.setRight(right);
+            n.setTopLeft(topLeft);
+            n.setTopRight(topRight);
+            n.setHeight(parent.getHeight()+1);
+            gameboard[col] = n;
 
-	public boolean checkColumns() {
-		for (int j = 0; j < ConnectFour.getBoardSize(); j++) {
-			int matches = 1;
-			for (int i = 1; i < ConnectFour.getBoardSize(); i++) {
-				if (board[i][j] != null) // this checks whether or not its
-											// empty, since im using a int array
-											// atm
-				{
-					if (board[i][j] == board[i - 1][j]) // we would need to
-														// change these to
-														// colors
-					{
-						matches++;
-					} else
-						matches = 1;
-				}
-				if (matches >= ConnectFour.getScoreToWin()) {
-					// System.out.println("Player" + " " + board[i][j] + " " +
-					// "Wins"); //this will be changed to end the game here +
-					// doing something else
-					return true;
-				} else
-					continue;
+            checkWinConditions(n);
 
-			}
-		}
-		return false;
+            return height - n.getHeight();
+        } else if(parent.getHeight() < height){
+            n.setBottom(parent);
+            int curHeight = parent.getHeight()+1;
+            parent.setTop(n);
+            Node left = getNode(col-1, curHeight);
+            Node right = getNode(col+1,curHeight);
+            Node topRight = getNode(col+1, curHeight+1);
+            Node topLeft = getNode(col-1, curHeight+1);
+            Node bottomLeft = getNode(col-1,curHeight-1);
+            Node bottomRight = getNode(col+1,curHeight-1);
+            if(left != NILL) {
+                left.setRight(n);
+            } if(right != NILL){
+                right.setLeft(n);
+            } if(topLeft != NILL){
+                topLeft.setBottomRight(n);
+            } if(topRight != NILL){
+                topRight.setBottomLeft(n);
+            } if(bottomLeft != NILL){
+                bottomLeft.setTopRight(n);
+            } if(bottomRight != NILL){
+                bottomRight.setTopLeft(n);
+            }
+            n.setLeft(left);
+            n.setRight(right);
+            n.setTopLeft(topLeft);
+            n.setTopRight(topRight);
+            n.setBottomLeft(bottomLeft);
+            n.setBottomRight(bottomRight);
 
-	}
+            n.setHeight(parent.getHeight()+1);
 
-	public boolean checkDraw() {
-		if (getEmptySpaces() == 0) {
-			return true;
-		}
-		return false;
-	}
+            checkWinConditions(n);
 
-	/**
-	 * The adds a chip into the gameboard
-	 * 
-	 * @param j
-	 * @param p
-	 * @return
-	 */
-	public int placeChip(int j, Player p) // j = column
-	{
-		if (board[0][j] != null) // top slot of column is full, so the whole
-									// column is full
-		{
-			return -1;
-		}
+            return height - n.getHeight();
+        } else{
+            return -1;
+        }
+    }
 
-		for (int i = 0; i < ConnectFour.getBoardSize(); i++) // if the slot
-																// below is
-																// full, then
-																// the disk on
-																// top of the
-																// current one
-																// must be empty
-		{
-			if (board[i][j] != null) {
-				board[i - 1][j] = p;
-				return i - 1;
-			}
-		}
-		board[ConnectFour.getBoardSize() - 1][j] = p;// if none of the slots are
-														// full, then the bottom
-														// one is the first
-														// available slot
-		return ConnectFour.getBoardSize() - 1;
+    public void clear(){
+        //TODO implement
+    }
 
-	}
+    public boolean checkColumns(){
+        //TODO implement
+        return winByCols;
+    }
 
+    /**
+     * Returns the node situated at the specified column and height
+     * @param col
+     * @param height
+     * @return
+     */
+    private Node getNode(int col, int height){
+        //TODO add condition for height bigger than the the actual height
+        if(col <0 || col >= width){
+            return NILL;
+        } else {
+            //TODO fix this
+            Node n = gameboard[col];
+
+            while(n.getHeight() != height){
+                if(n == NILL){
+                    return NILL;
+                }
+                n = n.getTop();
+            }
+            return n;
+        }
+    }
+
+    /**
+     * Gets the highest node in the specified column
+     * @param col
+     * @return
+     */
+    private Node getHighestNode(int col){
+        Node n = gameboard[col];
+        if(n == NILL){
+            return NILL;
+        } else {
+            while(n.getTop() != NILL){
+                n = n.getTop();
+            }
+            return n;
+        }
+    }
+
+    public boolean checkDiagonals() {
+        return winbyDiag;
+    }
+
+    public boolean checkRows() {
+        return winbyRow;
+    }
+
+    public boolean checkDraw() {
+        return draw;
+    }
+
+
+    private class Node {
+
+        private int player;
+        private int height;
+        private Node topLeft;
+        private Node topRight;
+        private Node bottomLeft;
+        private Node bottomRight;
+        private Node top;
+        private Node left;
+        private Node right;
+        private Node bottom;
+
+        Node(int player) {
+            this.player = player;
+        }
+
+        private void setLeft(Node n) {
+            this.left = n;
+        }
+
+        private void setRight(Node n) {
+            this.right = n;
+        }
+
+        private void setBottom(Node n) {
+            this.bottom = n;
+        }
+
+        private void setTop(Node n) {
+            this.top = n;
+        }
+
+        private int getPlayer() {
+            return player;
+        }
+
+        public Node getTop() {
+            return top;
+        }
+
+        public Node getLeft() {
+            return left;
+        }
+
+        public Node getRight() {
+            return right;
+        }
+
+        Node getBottom() {
+            return bottom;
+        }
+
+        public int getHeight() {
+            return height;
+        }
+
+        public void setHeight(int height) {
+            this.height = height;
+        }
+
+        public Node getBottomRight() {
+            return bottomRight;
+        }
+
+        public void setBottomRight(Node bottomRight) {
+            this.bottomRight = bottomRight;
+        }
+
+        public Node getBottomLeft() {
+            return bottomLeft;
+        }
+
+        public void setBottomLeft(Node bottomLeft) {
+            this.bottomLeft = bottomLeft;
+        }
+
+        public Node getTopLeft() {
+            return topLeft;
+        }
+
+        public void setTopLeft(Node topLeft) {
+            this.topLeft = topLeft;
+        }
+
+        public Node getTopRight() {
+            return topRight;
+        }
+
+        public void setTopRight(Node topRight) {
+            this.topRight = topRight;
+        }
+
+        public String toString(){
+            if(player == -1){
+                return "NILL";
+            }
+            else return "Player: " + String.valueOf(player);
+        }
+    }
 }

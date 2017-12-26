@@ -199,7 +199,7 @@ public class GameViewController {
 		int column = gameGrid.getColumnIndex(pane);// find what column this
 		Board board = mainApp.getGameBoard();
 		// pane is in
-		int row = board.placeChip(column, player);
+		int row = board.insert(column, player.getPlayerID());
 		if (row >= 0) { // if i can place a chip here
 			Circle c = (Circle) getNodePosition(row + 1, column);
 			c.setFill(currentPlayer.getPlayerColor());

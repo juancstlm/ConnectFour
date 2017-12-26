@@ -45,6 +45,10 @@ public class Player {
 		return playerColor;
 	}
 
+	/**
+	 * Gets the ID of the player
+	 * @return
+	 */
 	public int getPlayerID() {
 		return plalyerID;
 	}

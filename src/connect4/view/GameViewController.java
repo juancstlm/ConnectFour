@@ -30,7 +30,8 @@ public class GameViewController {
 
 	private ConnectFour mainApp; // reference to the main application
 	private Player currentPlayer; // the current player
-	private int boardSize; // size of the board
+	private int boardWidth; // size of the board
+    private int boardHeight;
 	private Queue<Player> players; // a queue of players so I can switch
 
 	@FXML
@@ -49,8 +50,9 @@ public class GameViewController {
 		// get the board size from the main application this needs to be static
 		// since main app is null
 		// when the initialize method is called
-		boardSize = ConnectFour.getBoardSize();
-		createBoard(boardSize);
+		boardHeight = ConnectFour.DEFAULT_BOARD_HEIGHT;
+		boardWidth = ConnectFour.DEFAULT_BOARD_WIDTH;
+		createBoard(boardHeight,boardWidth);
 	}
 
 	/**
@@ -58,17 +60,18 @@ public class GameViewController {
 	 * rows and columns plus an extra row on top for selecting the column to
 	 * drop the peg.
 	 * 
-	 * @param size
+	 * @param rows
+     * @paran coluns
 	 *            the size of the board
 	 */
-	private void createBoard(int size) {
+	private void createBoard(int rows, int columns) {
 
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < columns; i++) {
 			ColumnConstraints column = new ColumnConstraints(computeColumnSize());
 			gameGrid.getColumnConstraints().add(column);
 		}
 
-		for (int i = 0; i < size + 1; i++) {
+		for (int i = 0; i < rows + 1; i++) {
 			RowConstraints row = new RowConstraints(computeColumnSize());
 			gameGrid.getRowConstraints().add(row);
 		}
@@ -77,8 +80,8 @@ public class GameViewController {
 		gameGrid.setHgap(8);
 		gameGrid.setVgap(8);
 
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size + 1; j++) {
+		for (int i = 0; i < columns; i++) {
+			for (int j = 0; j < rows + 1; j++) {
 				// Create the guide circles differently with panes
 				if (j == 0) {
 					Pane pane = new Pane();
@@ -123,8 +126,8 @@ public class GameViewController {
 	private void clear() {
 		gameGrid.getChildren().clear();
 		mainApp.getGameBoard().clear();
-		for (int i = 0; i < boardSize; i++) {
-			for (int j = 0; j < boardSize + 1; j++) {
+		for (int i = 0; i < boardWidth; i++) {
+			for (int j = 0; j < boardHeight+ 1; j++) {
 				// Create the guide circles differently with panes
 				if (j == 0) {
 					Pane pane = new Pane();
@@ -199,9 +202,9 @@ public class GameViewController {
 		int column = gameGrid.getColumnIndex(pane);// find what column this
 		Board board = mainApp.getGameBoard();
 		// pane is in
-		int row = board.insert(column, player.getPlayerID());
+		int row = boardHeight - board.insert(column, player.getPlayerID());
 		if (row >= 0) { // if i can place a chip here
-			Circle c = (Circle) getNodePosition(row + 1, column);
+			Circle c = (Circle) getNodePosition(row , column);
 			c.setFill(currentPlayer.getPlayerColor());
 			if (board.checkColumns()) {
 				showWinDialogue("Columns");
@@ -287,7 +290,7 @@ public class GameViewController {
 		int columnSize = 0;
 
 		int boardWidth = 600;
-		columnSize = (boardWidth - (gap * boardSize)) / boardSize;
+		columnSize = (boardWidth - (gap * this.boardWidth)) / this.boardWidth;
 		return columnSize;
 	}
 

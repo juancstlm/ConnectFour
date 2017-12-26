@@ -58,7 +58,7 @@ public class MenuViewController {
 
 	@FXML
 	private boolean startGame() {
-		Board board = new Board();
+		Board board = new Board(mainApp.getBoardHeight(), mainApp.getBoardWidth(), mainApp.getScoreToWin());
 		Player p1 = playerFactory.createPlayer((String) p1Selector.getValue(), p1Color);
 		Player p2 = playerFactory.createPlayer((String) p2Selector.getValue(), p2Color);
 		mainApp.addPlayer(p1);

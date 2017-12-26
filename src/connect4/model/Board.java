@@ -1,16 +1,17 @@
 package connect4.model;
 
 public class Board {
+
     private Node gameboard[];
     private static final int HEIGHT = 6;
     private static final int WIDTH = 7;
     private static final int SCORE_TO_WIN = 4;
-    private Node NILL;
+    private static Node NILL;
     private int scoreToWin;
     private int height;
     private int width;
 
-    private boolean winByCols =  false;
+    private boolean winByCols = false;
     private boolean winbyDiag = false;
     private boolean winbyRow = false;
     private boolean draw = false;
@@ -20,12 +21,9 @@ public class Board {
         this(HEIGHT, WIDTH, SCORE_TO_WIN);
     }
 
-    public Board(int height, int width) {
-        this(height, width, SCORE_TO_WIN);
-    }
-
     public Board(int height, int width, int scoreToWin) {
 
+        //TODO make the nill node a singleton
         // Creating the NILL Node
         NILL = new Node(-1);
         NILL.setTop(NILL);
@@ -39,39 +37,40 @@ public class Board {
         this.scoreToWin = scoreToWin;
         gameboard = new Node[this.width];
 
-        for(int i = 0; i<width;i++){
+        for (int i = 0; i < width; i++) {
             gameboard[i] = NILL;
         }
     }
 
-    private void checkWinConditions(Node n){
+    private void checkWinConditions(Node n) {
         checkDiag(n);
         checkVertical(n);
+        checkRows(n);
     }
 
-    private void checkVertical(Node n){
+    private void checkVertical(Node n) {
         int score = 1;
-        if(n.getTop().getPlayer() == n.getPlayer()){
+        if (n.getTop().getPlayer() == n.getPlayer()) {
             Node check = n.getTop();
             score++;
-            while(check.getTop().getPlayer() == n.getPlayer() && check != NILL ){
+            while (check.getTop().getPlayer() == n.getPlayer() && check != NILL) {
                 check = check.getTop();
                 score++;
             }
 
-            if(score >= scoreToWin){
+            if (score >= scoreToWin) {
                 winByCols = score >= scoreToWin;
                 return;
             }
-        } else if(n.getBottom().getPlayer() == n.getPlayer()){
+        } else if (n.getBottom().getPlayer() == n.getPlayer()) {
             score = 1;
             Node check = n.getBottom();
             score++;
-            while(check.getBottom().getPlayer() == n.getPlayer() && check != NILL ){
+            while (check.getBottom().getPlayer() == n.getPlayer() && check != NILL) {
                 score++;
                 check = check.getBottom();
             }
-            if(score >= scoreToWin){
+            if (score >= scoreToWin) {
                 winByCols = score >= scoreToWin;
                 return;
             }
@@ -79,114 +78,154 @@ public class Board {
 
     }
 
+    private void checkRows(Node n){
+        int score = 1;
+        if(n.getLeft().getPlayer() == n.player){
+            Node check = n.getLeft();
+            score++;
+            while(check.getLeft().getPlayer() == n.getPlayer() && check != NILL){
+                score ++;
+                check = check.getLeft();
+            }
+            if (score >= scoreToWin) {
+                winbyRow = score >= scoreToWin;
+                return;
+            }
+        } else if(n.getRight().getPlayer() == n.player){
+            score = 1;
+            Node check = n.getRight();
+            while(check.getRight().getPlayer() == n.getPlayer() && check != NILL){
+                score ++;
+                check = check.getRight();
+            }
+            if (score >= scoreToWin) {
+                winbyRow = score >= scoreToWin;
+                return;
+            }
+        }
+    }
 
-    private void checkDiag(Node n){
+    private void checkDiag(Node n) {
         //TODO fully implement this
         int score = 1;
-        if(n.getTopLeft().getPlayer() == n.getPlayer()){
+        if (n.getTopLeft().getPlayer() == n.getPlayer()) {
             Node check = n.getTopLeft();
             score++;
-            while(check.getTopLeft().getPlayer() == n.getPlayer() && check != NILL){
+            while (check.getTopLeft().getPlayer() == n.getPlayer() && check != NILL) {
                 check = check.getTopLeft();
                 score++;
             }
-            if(score >= scoreToWin){
+            if (score >= scoreToWin) {
                 winbyDiag = score >= scoreToWin;
                 return;
             }
-        } else if (n.getTopRight().getPlayer() == n.getPlayer()){
+        } else if (n.getTopRight().getPlayer() == n.getPlayer()) {
             score = 1;
             Node check = n.getTopRight();
             score++;
-            while(check.getTopRight().getPlayer() == n.getPlayer() && check != NILL){
+            while (check.getTopRight().getPlayer() == n.getPlayer() && check != NILL) {
                 check = check.getTopRight();
                 score++;
             }
-            if(score >= scoreToWin){
+            if (score >= scoreToWin) {
                 winbyDiag = score >= scoreToWin;
                 return;
             }
 
-        } else if(n.getBottomLeft().getPlayer() == n.getPlayer()){
+        } else if (n.getBottomLeft().getPlayer() == n.getPlayer()) {
             score = 1;
             Node check = n.getBottomLeft();
             score++;
-            while(check.getBottomLeft().getPlayer() == n.getPlayer() && check != NILL){
+            while (check.getBottomLeft().getPlayer() == n.getPlayer() && check != NILL) {
                 check = check.getBottomLeft();
                 score++;
             }
-            if(score >= scoreToWin){
+            if (score >= scoreToWin) {
                 winbyDiag = score >= scoreToWin;
                 return;
             }
 
-        } else if(n.getBottomRight().getPlayer() == n.getPlayer()){
+        } else if (n.getBottomRight().getPlayer() == n.getPlayer()) {
             score = 1;
             Node check = n.getBottomRight();
             score++;
-            while(check.getBottomRight().getPlayer() == n.getPlayer() && check != NILL){
+            while (check.getBottomRight().getPlayer() == n.getPlayer() && check != NILL) {
                 check = check.getBottomRight();
                 score++;
             }
-            if(score >= scoreToWin){
+            if (score >= scoreToWin) {
                 winbyDiag = score >= scoreToWin;
                 return;
             }
         }
     }
 
-    public int insert(int col, int player){
+    /**
+     * Inserts a players game piece into the specified column
+     * @param col the column where to place the game piece
+     * @param player the player id
+     * @return the row where the game piece was placed
+     */
+    public int insert(int col, int player) {
         Node n = new Node(player);
         n.setTop(NILL);
         Node parent = getHighestNode(col);
-        if(parent == NILL){
+        if (parent == NILL) {
             n.setBottom(NILL);
             n.setBottomLeft(NILL);
             n.setBottomRight(NILL);
-            Node left = getNode(col-1, 0);
-            Node right = getNode(col+1,0);
-            Node topRight = getNode(col+1, 1);
-            Node topLeft = getNode(col-1, 1);
-            if(left != NILL) {
+            Node left = getNode(col - 1, 0);
+            Node right = getNode(col + 1, 0);
+            Node topRight = getNode(col + 1, 1);
+            Node topLeft = getNode(col - 1, 1);
+            if (left != NILL) {
                 left.setRight(n);
-            } if(right != NILL){
+            }
+            if (right != NILL) {
                 right.setLeft(n);
-            } if(topLeft != NILL){
+            }
+            if (topLeft != NILL) {
                 topLeft.setBottomRight(n);
-            } if(topRight != NILL){
+            }
+            if (topRight != NILL) {
                 topRight.setBottomLeft(n);
             }
             n.setLeft(left);
             n.setRight(right);
             n.setTopLeft(topLeft);
             n.setTopRight(topRight);
-            n.setHeight(parent.getHeight()+1);
+            n.setHeight(parent.getHeight() + 1);
             gameboard[col] = n;
 
             checkWinConditions(n);
 
-            return height - n.getHeight();
-        } else if(parent.getHeight() < height){
+            return n.getHeight();
+        } else if (parent.getHeight() < height) {
             n.setBottom(parent);
-            int curHeight = parent.getHeight()+1;
+            int curHeight = parent.getHeight() + 1;
             parent.setTop(n);
-            Node left = getNode(col-1, curHeight);
-            Node right = getNode(col+1,curHeight);
-            Node topRight = getNode(col+1, curHeight+1);
-            Node topLeft = getNode(col-1, curHeight+1);
-            Node bottomLeft = getNode(col-1,curHeight-1);
-            Node bottomRight = getNode(col+1,curHeight-1);
-            if(left != NILL) {
+            Node left = getNode(col - 1, curHeight);
+            Node right = getNode(col + 1, curHeight);
+            Node topRight = getNode(col + 1, curHeight + 1);
+            Node topLeft = getNode(col - 1, curHeight + 1);
+            Node bottomLeft = getNode(col - 1, curHeight - 1);
+            Node bottomRight = getNode(col + 1, curHeight - 1);
+            if (left != NILL) {
                 left.setRight(n);
-            } if(right != NILL){
+            }
+            if (right != NILL) {
                 right.setLeft(n);
-            } if(topLeft != NILL){
+            }
+            if (topLeft != NILL) {
                 topLeft.setBottomRight(n);
-            } if(topRight != NILL){
+            }
+            if (topRight != NILL) {
                 topRight.setBottomLeft(n);
-            } if(bottomLeft != NILL){
+            }
+            if (bottomLeft != NILL) {
                 bottomLeft.setTopRight(n);
-            } if(bottomRight != NILL){
+            }
+            if (bottomRight != NILL) {
                 bottomRight.setTopLeft(n);
             }
             n.setLeft(left);
@@ -196,41 +235,51 @@ public class Board {
             n.setBottomLeft(bottomLeft);
             n.setBottomRight(bottomRight);
 
-            n.setHeight(parent.getHeight()+1);
+            n.setHeight(parent.getHeight() + 1);
 
             checkWinConditions(n);
 
-            return height - n.getHeight();
-        } else{
+            return n.getHeight();
+        } else {
             return -1;
         }
     }
 
-    public void clear(){
-        //TODO implement
+    /**
+     * Clears the game board
+     */
+    public void clear() {
+        for(int i = 0; i< gameboard.length; i++){
+            gameboard[i] = NILL;
+        }
+
+        winbyRow = false;
+        winbyDiag = false;
+        winByCols = false;
     }
 
-    public boolean checkColumns(){
+    public boolean checkColumns() {
         //TODO implement
         return winByCols;
     }
 
     /**
      * Returns the node situated at the specified column and height
+     *
      * @param col
      * @param height
      * @return
      */
-    private Node getNode(int col, int height){
+    private Node getNode(int col, int height) {
         //TODO add condition for height bigger than the the actual height
-        if(col <0 || col >= width){
+        if (col < 0 || col >= width) {
             return NILL;
         } else {
             //TODO fix this
             Node n = gameboard[col];
 
-            while(n.getHeight() != height){
-                if(n == NILL){
+            while (n.getHeight() != height) {
+                if (n == NILL) {
                     return NILL;
                 }
                 n = n.getTop();
@@ -241,15 +290,16 @@ public class Board {
 
     /**
      * Gets the highest node in the specified column
+     *
      * @param col
      * @return
      */
-    private Node getHighestNode(int col){
+    private Node getHighestNode(int col) {
         Node n = gameboard[col];
-        if(n == NILL){
+        if (n == NILL) {
             return NILL;
         } else {
-            while(n.getTop() != NILL){
+            while (n.getTop() != NILL) {
                 n = n.getTop();
             }
             return n;
@@ -306,7 +356,7 @@ public class Board {
             return player;
         }
 
-        public Node getTop() {
+        Node getTop() {
             return top;
         }
 
@@ -322,51 +372,50 @@ public class Board {
             return bottom;
         }
 
-        public int getHeight() {
+        int getHeight() {
             return height;
         }
 
-        public void setHeight(int height) {
+        void setHeight(int height) {
             this.height = height;
         }
 
-        public Node getBottomRight() {
+        Node getBottomRight() {
             return bottomRight;
         }
 
-        public void setBottomRight(Node bottomRight) {
+        void setBottomRight(Node bottomRight) {
             this.bottomRight = bottomRight;
         }
 
-        public Node getBottomLeft() {
+        Node getBottomLeft() {
             return bottomLeft;
         }
 
-        public void setBottomLeft(Node bottomLeft) {
+        void setBottomLeft(Node bottomLeft) {
             this.bottomLeft = bottomLeft;
         }
 
-        public Node getTopLeft() {
+        Node getTopLeft() {
             return topLeft;
         }
 
-        public void setTopLeft(Node topLeft) {
+        void setTopLeft(Node topLeft) {
             this.topLeft = topLeft;
         }
 
-        public Node getTopRight() {
+        Node getTopRight() {
             return topRight;
         }
 
-        public void setTopRight(Node topRight) {
+        void setTopRight(Node topRight) {
             this.topRight = topRight;
         }
 
-        public String toString(){
-            if(player == -1){
+        public String toString() {
+            if (player == -1) {
                 return "NILL";
-            }
-            else return "Player: " + String.valueOf(player);
+            } else return "Player: " + String.valueOf(player);
         }
     }
 }

@@ -63,6 +63,15 @@ public class Board {
         checkDiag(n);
         checkColumn(n);
         checkRow(n);
+        checkDraw(n);
+    }
+
+    /**
+     * Checks
+     * @param n
+     */
+    private void checkDraw(Node n) {
+        draw = (moves.size() == width * height);
     }
 
     /**
@@ -180,32 +189,33 @@ public class Board {
         Node n = new Node(player);
         n.setTop(NILL);
         Node parent = getHighestNode(col);
+        // If the parent node is the NILL node. The node n will be the first node in the column
         if (parent == NILL) {
+            // Set the bottom of the node to be the NILL node
             n.setBottom(NILL);
             n.setBottomLeft(NILL);
             n.setBottomRight(NILL);
+            // Get the neighboring nodes
             Node left = getNode(col - 1, 0);
             Node right = getNode(col + 1, 0);
             Node topRight = getNode(col + 1, 1);
             Node topLeft = getNode(col - 1, 1);
-            if (left != NILL) {
-                left.setRight(n);
-            }
-            if (right != NILL) {
-                right.setLeft(n);
-            }
-            if (topLeft != NILL) {
-                topLeft.setBottomRight(n);
-            }
-            if (topRight != NILL) {
-                topRight.setBottomLeft(n);
-            }
+
+            // Set the neighboring nodes to point to the new node
+            left.setRight(n);
+            right.setLeft(n);
+            topLeft.setBottomRight(n);
+            topRight.setBottomLeft(n);
+            // Set the appropriate neighboring nodes
             n.setLeft(left);
             n.setRight(right);
             n.setTopLeft(topLeft);
             n.setTopRight(topRight);
+            // Set the height of the node as the height of the parent plus 1
             n.setHeight(parent.getHeight() + 1);
+            // set this node as the root of the column
             gameboard[col] = n;
+            // add this node to the list of moves
             moves.add(n);
 
             checkWinConditions(n);

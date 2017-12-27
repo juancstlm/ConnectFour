@@ -283,7 +283,7 @@ public class Board {
             // Set all the nodes that link to this node to link to the NILL node
         }
     }
-    
+
     /**
      * Clears the game board
      */

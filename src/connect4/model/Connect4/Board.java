@@ -1,5 +1,7 @@
 package connect4.model.Connect4;
 
+import java.util.LinkedList;
+
 /**
  * A class to model a n x k connect 4 game board with m score needed to win.
  */
@@ -7,15 +9,17 @@ public class Board {
 
     // The root nodes of the game board.
     private Node gameboard[];
+    private Node NILL; // NILL node used to check the edges
     // Default sizes
     private static final int HEIGHT = 6;
     private static final int WIDTH = 7;
     private static final int SCORE_TO_WIN = 4;
-    private Node NILL; // NILL node used to check the edges
+    // Sizing
     private int scoreToWin;
     private int height;
     private int width;
 
+    private LinkedList<Node> moves;
     private boolean winByCols = false;
     private boolean winbyDiag = false;
     private boolean winbyRow = false;
@@ -50,6 +54,9 @@ public class Board {
         for (int i = 0; i < width; i++) {
             gameboard[i] = NILL;
         }
+
+        // Initialize the moves queue
+        moves = new LinkedList<>();
     }
 
     private void checkWinConditions(Node n) {
@@ -160,8 +167,10 @@ public class Board {
         winbyDiag = (winbyDiag || matches >= scoreToWin);
     }
 
+    //TODO implement a fucntion to check draw conditions
+
     /**
-     * Inserts a players game piece into the specified column
+     * Inserts a players game piece into the specified column and returns the row where the game piece was placed.
      *
      * @param col    the column where to place the game piece
      * @param player the player id
@@ -197,6 +206,7 @@ public class Board {
             n.setTopRight(topRight);
             n.setHeight(parent.getHeight() + 1);
             gameboard[col] = n;
+            moves.add(n);
 
             checkWinConditions(n);
 
@@ -237,6 +247,7 @@ public class Board {
             n.setBottomRight(bottomRight);
 
             n.setHeight(parent.getHeight() + 1);
+            moves.add(n);
 
             checkWinConditions(n);
 
@@ -246,6 +257,33 @@ public class Board {
         }
     }
 
+    /**
+     * Undoes the last insert that was made into the game board
+     */
+    public void undoLast(){
+        if(!moves.isEmpty()){
+            Node n = moves.removeLast();
+            // Find all the nodes that link to this node
+            Node top = n.getTop();
+            Node bottom = n.getBottom();
+            Node right = n.getRight();
+            Node left = n.getLeft();
+            Node topLeft= n.getTopLeft();
+            Node topRight = n.getTopRight();
+            Node bottomLeft = n.getBottomLeft();
+            Node bottomRight = n.getBottomRight();
+            top.setBottom(NILL);
+            left.setRight(NILL);
+            right.setLeft(NILL);
+            bottom.setTop(NILL);
+            topLeft.setBottomRight(NILL);
+            topRight.setBottomLeft(NILL);
+            bottomLeft.setTopRight(NILL);
+            bottomRight.setTopLeft(NILL);
+            // Set all the nodes that link to this node to link to the NILL node
+        }
+    }
+    
     /**
      * Clears the game board
      */

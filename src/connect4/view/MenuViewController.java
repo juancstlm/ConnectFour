@@ -1,7 +1,7 @@
 package connect4.view;
 
 import connect4.ConnectFour;
-import connect4.model.Board;
+import connect4.model.Connect4.Board;
 import connect4.model.Player;
 import connect4.model.PlayerFactory;
 import javafx.fxml.FXML;

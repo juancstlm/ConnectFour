@@ -1,11 +1,10 @@
 package connect4;
 
 import java.io.IOException;
-import java.net.ConnectException;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import connect4.model.Board;
+import connect4.model.Connect4.Board;
 import connect4.model.Player;
 import connect4.view.GameViewController;
 import connect4.view.MenuViewController;
@@ -15,9 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
 public class ConnectFour extends Application {
 

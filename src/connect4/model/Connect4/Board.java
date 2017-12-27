@@ -1,12 +1,15 @@
-package connect4.model;
+package connect4.model.Connect4;
 
+/**
+ * A class to model a nxk connect 4 game board.
+ */
 public class Board {
 
     private Node gameboard[];
     private static final int HEIGHT = 6;
     private static final int WIDTH = 7;
     private static final int SCORE_TO_WIN = 4;
-    private static Node NILL;
+    private Node NILL;
     private int scoreToWin;
     private int height;
     private int width;
@@ -22,15 +25,8 @@ public class Board {
     }
 
     public Board(int height, int width, int scoreToWin) {
-
-        //TODO make the nill node a singleton
-        // Creating the NILL Node
-        NILL = new Node(-1);
-        NILL.setTop(NILL);
-        NILL.setLeft(NILL);
-        NILL.setBottom(NILL);
-        NILL.setRight(NILL);
-        NILL.setHeight(-1);
+        //Assign the NILL node
+        NILL = Nill.getIntance();
 
         this.height = height;
         this.width = width;
@@ -80,7 +76,7 @@ public class Board {
 
     private void checkRows(Node n){
         int score = 1;
-        if(n.getLeft().getPlayer() == n.player){
+        if(n.getLeft().getPlayer() == n.getPlayer()){
             Node check = n.getLeft();
             score++;
             while(check.getLeft().getPlayer() == n.getPlayer() && check != NILL){
@@ -91,7 +87,7 @@ public class Board {
                 winbyRow = score >= scoreToWin;
                 return;
             }
-        } else if(n.getRight().getPlayer() == n.player){
+        } else if(n.getRight().getPlayer() == n.getPlayer()){
             score = 1;
             Node check = n.getRight();
             while(check.getRight().getPlayer() == n.getPlayer() && check != NILL){
@@ -291,8 +287,8 @@ public class Board {
     /**
      * Gets the highest node in the specified column
      *
-     * @param col
-     * @return
+     * @param col the column to get the highest node from
+     * @return the node at the highest level
      */
     private Node getHighestNode(int col) {
         Node n = gameboard[col];
@@ -318,104 +314,4 @@ public class Board {
         return draw;
     }
 
-
-    private class Node {
-
-        private int player;
-        private int height;
-        private Node topLeft;
-        private Node topRight;
-        private Node bottomLeft;
-        private Node bottomRight;
-        private Node top;
-        private Node left;
-        private Node right;
-        private Node bottom;
-
-        Node(int player) {
-            this.player = player;
-        }
-
-        private void setLeft(Node n) {
-            this.left = n;
-        }
-
-        private void setRight(Node n) {
-            this.right = n;
-        }
-
-        private void setBottom(Node n) {
-            this.bottom = n;
-        }
-
-        private void setTop(Node n) {
-            this.top = n;
-        }
-
-        private int getPlayer() {
-            return player;
-        }
-
-        Node getTop() {
-            return top;
-        }
-
-        public Node getLeft() {
-            return left;
-        }
-
-        public Node getRight() {
-            return right;
-        }
-
-        Node getBottom() {
-            return bottom;
-        }
-
-        int getHeight() {
-            return height;
-        }
-
-        void setHeight(int height) {
-            this.height = height;
-        }
-
-        Node getBottomRight() {
-            return bottomRight;
-        }
-
-        void setBottomRight(Node bottomRight) {
-            this.bottomRight = bottomRight;
-        }
-
-        Node getBottomLeft() {
-            return bottomLeft;
-        }
-
-        void setBottomLeft(Node bottomLeft) {
-            this.bottomLeft = bottomLeft;
-        }
-
-        Node getTopLeft() {
-            return topLeft;
-        }
-
-        void setTopLeft(Node topLeft) {
-            this.topLeft = topLeft;
-        }
-
-        Node getTopRight() {
-            return topRight;
-        }
-
-        void setTopRight(Node topRight) {
-            this.topRight = topRight;
-        }
-
-        public String toString() {
-            if (player == -1) {
-                return "NILL";
-            } else return "Player: " + String.valueOf(player);
-        }
-    }
 }

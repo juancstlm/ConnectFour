@@ -4,7 +4,7 @@ import java.util.Optional;
 import java.util.Queue;
 
 import connect4.ConnectFour;
-import connect4.model.Board;
+import connect4.model.Connect4.Board;
 import connect4.model.Player;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -22,7 +22,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import javafx.util.Duration;
 
@@ -236,7 +235,7 @@ public class GameViewController {
 	}
 
 	private void showWinDialogue(String s) {
-		incraseScore(currentPlayer);
+		increaseScore(currentPlayer);
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.initOwner(mainApp.getPrimaryStage());
 		alert.setTitle("PLayer " + currentPlayer.getPlayerID() + " Wins");
@@ -313,7 +312,7 @@ public class GameViewController {
 		player2Circle.setFill(players.peek().getPlayerColor());
 	}
 	
-	public void incraseScore(Player p){
+	public void increaseScore(Player p){
 		p.increaseScore();
 		if(p.getPlayerID() == 1){
 			p1Score.setText(Integer.toString(p.getScore()));

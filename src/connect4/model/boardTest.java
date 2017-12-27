@@ -1,5 +1,7 @@
 package connect4.model;
 
+import connect4.model.Connect4.Board;
+
 import java.util.LinkedList;
 
 

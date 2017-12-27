@@ -68,6 +68,7 @@ public class Board {
 
     /**
      * Checks
+     *
      * @param n
      */
     private void checkDraw(Node n) {
@@ -144,7 +145,8 @@ public class Board {
                 check = check.getTopLeft();
                 matches++;
             }
-        } if (n.getBottomRight().getPlayer() == n.getPlayer()) {
+        }
+        if (n.getBottomRight().getPlayer() == n.getPlayer()) {
             Node check = n.getBottomRight();
             matches++;
             while (check.getBottomRight().getPlayer() == n.getPlayer() && check != NILL) {
@@ -155,7 +157,7 @@ public class Board {
         // set the win conditions according
         winbyDiag = matches >= scoreToWin;
         // reset the matches back to 1
-        matches =1;
+        matches = 1;
         if (n.getTopRight().getPlayer() == n.getPlayer()) {
             Node check = n.getTopRight();
             matches++;
@@ -163,7 +165,8 @@ public class Board {
                 check = check.getTopRight();
                 matches++;
             }
-        } if (n.getBottomLeft().getPlayer() == n.getPlayer()) {
+        }
+        if (n.getBottomLeft().getPlayer() == n.getPlayer()) {
             Node check = n.getBottomLeft();
             matches++;
             while (check.getBottomLeft().getPlayer() == n.getPlayer() && check != NILL) {
@@ -231,24 +234,12 @@ public class Board {
             Node topLeft = getNode(col - 1, curHeight + 1);
             Node bottomLeft = getNode(col - 1, curHeight - 1);
             Node bottomRight = getNode(col + 1, curHeight - 1);
-            if (left != NILL) {
-                left.setRight(n);
-            }
-            if (right != NILL) {
-                right.setLeft(n);
-            }
-            if (topLeft != NILL) {
-                topLeft.setBottomRight(n);
-            }
-            if (topRight != NILL) {
-                topRight.setBottomLeft(n);
-            }
-            if (bottomLeft != NILL) {
-                bottomLeft.setTopRight(n);
-            }
-            if (bottomRight != NILL) {
-                bottomRight.setTopLeft(n);
-            }
+            left.setRight(n);
+            right.setLeft(n);
+            topLeft.setBottomRight(n);
+            topRight.setBottomLeft(n);
+            bottomLeft.setTopRight(n);
+            bottomRight.setTopLeft(n);
             n.setLeft(left);
             n.setRight(right);
             n.setTopLeft(topLeft);
@@ -270,15 +261,15 @@ public class Board {
     /**
      * Undoes the last insert that was made into the game board
      */
-    public void undoLast(){
-        if(!moves.isEmpty()){
+    public void undoLast() {
+        if (!moves.isEmpty()) {
             Node n = moves.removeLast();
             // Find all the nodes that link to this node
             Node top = n.getTop();
             Node bottom = n.getBottom();
             Node right = n.getRight();
             Node left = n.getLeft();
-            Node topLeft= n.getTopLeft();
+            Node topLeft = n.getTopLeft();
             Node topRight = n.getTopRight();
             Node bottomLeft = n.getBottomLeft();
             Node bottomRight = n.getBottomRight();

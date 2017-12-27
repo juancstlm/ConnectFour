@@ -1,15 +1,17 @@
 package connect4.model.Connect4;
 
 /**
- * A class to model a nxk connect 4 game board.
+ * A class to model a n x k connect 4 game board with m score needed to win.
  */
 public class Board {
 
+    // The root nodes of the game board.
     private Node gameboard[];
+    // Default sizes
     private static final int HEIGHT = 6;
     private static final int WIDTH = 7;
     private static final int SCORE_TO_WIN = 4;
-    private Node NILL;
+    private Node NILL; // NILL node used to check the edges
     private int scoreToWin;
     private int height;
     private int width;
@@ -20,11 +22,22 @@ public class Board {
     private boolean draw = false;
 
 
+    /**
+     * Creates a default size game board with score to win of 4, width of 7, and height of 6
+     */
     public Board() {
         this(HEIGHT, WIDTH, SCORE_TO_WIN);
     }
 
+    /**
+     * Creates a game board with the specified parameters of height, width, and score to win.
+     *
+     * @param height     the height of the board
+     * @param width      the width of the board
+     * @param scoreToWin the score that is required to win
+     */
     public Board(int height, int width, int scoreToWin) {
+
         //Assign the NILL node
         NILL = Nill.getIntance();
 
@@ -33,6 +46,7 @@ public class Board {
         this.scoreToWin = scoreToWin;
         gameboard = new Node[this.width];
 
+        // Set all the root nodes to be the NILL node
         for (int i = 0; i < width; i++) {
             gameboard[i] = NILL;
         }
@@ -40,125 +54,116 @@ public class Board {
 
     private void checkWinConditions(Node n) {
         checkDiag(n);
-        checkVertical(n);
-        checkRows(n);
+        checkColumn(n);
+        checkRow(n);
     }
 
-    private void checkVertical(Node n) {
-        int score = 1;
-        if (n.getTop().getPlayer() == n.getPlayer()) {
-            Node check = n.getTop();
-            score++;
-            while (check.getTop().getPlayer() == n.getPlayer() && check != NILL) {
-                check = check.getTop();
-                score++;
-            }
-
-            if (score >= scoreToWin) {
-                winByCols = score >= scoreToWin;
-                return;
-            }
-        } else if (n.getBottom().getPlayer() == n.getPlayer()) {
-            score = 1;
+    /**
+     * Private method to check if there are the required number of matches in a column
+     *
+     * @param n
+     */
+    private void checkColumn(Node n) {
+        // Start matches at 1
+        int matches = 1;
+        // Check that the bottom node is from the same player
+        if (n.getBottom().getPlayer() == n.getPlayer()) {
+            // the the check node to be the bottom node
             Node check = n.getBottom();
-            score++;
+            // increase the number of matches
+            matches++;
+            // while the bottom node is by the same player and its not null
             while (check.getBottom().getPlayer() == n.getPlayer() && check != NILL) {
-                score++;
+                // increase the number of matches
+                matches++;
+                // set the new bottom noe as the check node
                 check = check.getBottom();
             }
-            if (score >= scoreToWin) {
-                winByCols = score >= scoreToWin;
-                return;
-            }
+
+            // set the win win condition to be true if the number of matches is greater than or equal to
+            // the score required to win
+            winByCols = matches >= scoreToWin;
         }
 
     }
 
-    private void checkRows(Node n){
-        int score = 1;
-        if(n.getLeft().getPlayer() == n.getPlayer()){
+    /**
+     * Checks the row to see if there are the number of wining nodes in a row
+     *
+     * @param n The node from where to start checking
+     */
+    private void checkRow(Node n) {
+        // Start the matches at 1
+        int matches = 1;
+        if (n.getLeft().getPlayer() == n.getPlayer()) {
             Node check = n.getLeft();
-            score++;
-            while(check.getLeft().getPlayer() == n.getPlayer() && check != NILL){
-                score ++;
+            matches++;
+            while (check.getLeft().getPlayer() == n.getPlayer() && check != NILL) {
+                matches++;
                 check = check.getLeft();
             }
-            if (score >= scoreToWin) {
-                winbyRow = score >= scoreToWin;
-                return;
-            }
-        } else if(n.getRight().getPlayer() == n.getPlayer()){
-            score = 1;
+        }
+        if (n.getRight().getPlayer() == n.getPlayer()) {
             Node check = n.getRight();
-            while(check.getRight().getPlayer() == n.getPlayer() && check != NILL){
-                score ++;
+            matches++;
+            while (check.getRight().getPlayer() == n.getPlayer() && check != NILL) {
+                matches++;
                 check = check.getRight();
             }
-            if (score >= scoreToWin) {
-                winbyRow = score >= scoreToWin;
-                return;
-            }
         }
+        winbyRow = matches >= scoreToWin;
     }
 
+    /**
+     * @param n
+     */
     private void checkDiag(Node n) {
         //TODO fully implement this
-        int score = 1;
+        // Check \  in this diagonal direction
+        int matches = 1;
         if (n.getTopLeft().getPlayer() == n.getPlayer()) {
             Node check = n.getTopLeft();
-            score++;
+            matches++;
             while (check.getTopLeft().getPlayer() == n.getPlayer() && check != NILL) {
                 check = check.getTopLeft();
-                score++;
+                matches++;
             }
-            if (score >= scoreToWin) {
-                winbyDiag = score >= scoreToWin;
-                return;
-            }
-        } else if (n.getTopRight().getPlayer() == n.getPlayer()) {
-            score = 1;
-            Node check = n.getTopRight();
-            score++;
-            while (check.getTopRight().getPlayer() == n.getPlayer() && check != NILL) {
-                check = check.getTopRight();
-                score++;
-            }
-            if (score >= scoreToWin) {
-                winbyDiag = score >= scoreToWin;
-                return;
-            }
-
-        } else if (n.getBottomLeft().getPlayer() == n.getPlayer()) {
-            score = 1;
-            Node check = n.getBottomLeft();
-            score++;
-            while (check.getBottomLeft().getPlayer() == n.getPlayer() && check != NILL) {
-                check = check.getBottomLeft();
-                score++;
-            }
-            if (score >= scoreToWin) {
-                winbyDiag = score >= scoreToWin;
-                return;
-            }
-
-        } else if (n.getBottomRight().getPlayer() == n.getPlayer()) {
-            score = 1;
+        } if (n.getBottomRight().getPlayer() == n.getPlayer()) {
             Node check = n.getBottomRight();
-            score++;
+            matches++;
             while (check.getBottomRight().getPlayer() == n.getPlayer() && check != NILL) {
                 check = check.getBottomRight();
-                score++;
-            }
-            if (score >= scoreToWin) {
-                winbyDiag = score >= scoreToWin;
-                return;
+                matches++;
             }
         }
+        // set the win conditions according
+        winbyDiag = matches >= scoreToWin;
+        // reset the matches back to 1
+        matches =1;
+        if (n.getTopRight().getPlayer() == n.getPlayer()) {
+            Node check = n.getTopRight();
+            matches++;
+            while (check.getTopRight().getPlayer() == n.getPlayer() && check != NILL) {
+                check = check.getTopRight();
+                matches++;
+            }
+        } if (n.getBottomLeft().getPlayer() == n.getPlayer()) {
+            Node check = n.getBottomLeft();
+            matches++;
+            while (check.getBottomLeft().getPlayer() == n.getPlayer() && check != NILL) {
+                check = check.getBottomLeft();
+                matches++;
+            }
+        }
+
+        // set the win conditions according
+        winbyDiag = (winbyDiag || matches >= scoreToWin);
     }
 
     /**
      * Inserts a players game piece into the specified column
-     * @param col the column where to place the game piece
+     *
+     * @param col    the column where to place the game piece
      * @param player the player id
      * @return the row where the game piece was placed
      */
@@ -245,10 +250,11 @@ public class Board {
      * Clears the game board
      */
     public void clear() {
-        for(int i = 0; i< gameboard.length; i++){
+        for (int i = 0; i < gameboard.length; i++) {
             gameboard[i] = NILL;
         }
 
+        // Set the win conditions to be false
         winbyRow = false;
         winbyDiag = false;
         winByCols = false;

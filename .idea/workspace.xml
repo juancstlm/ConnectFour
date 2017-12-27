@@ -18,15 +18,15 @@
             <file leaf-file-name="Board.java" pinned="false" current-in-tab="true">
               <entry file="file://$PROJECT_DIR$/src/connect4/model/Connect4/Board.java">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="-1344">
-                    <caret line="93" column="25" lean-forward="true" selection-start-line="93" selection-start-column="25" selection-end-line="93" selection-end-column="25" />
+                  <state relative-caret-position="1106">
+                    <caret line="157" column="0" lean-forward="true" selection-start-line="157" selection-start-column="0" selection-end-line="157" selection-end-column="0" />
                     <folding>
-                      <element signature="e#9027#9028#0" expanded="true" />
-                      <element signature="e#9059#9060#0" expanded="true" />
-                      <element signature="e#9093#9094#0" expanded="true" />
-                      <element signature="e#9124#9125#0" expanded="true" />
-                      <element signature="e#9158#9159#0" expanded="true" />
-                      <element signature="e#9185#9186#0" expanded="true" />
+                      <element signature="e#9556#9557#0" expanded="true" />
+                      <element signature="e#9588#9589#0" expanded="true" />
+                      <element signature="e#9622#9623#0" expanded="true" />
+                      <element signature="e#9653#9654#0" expanded="true" />
+                      <element signature="e#9687#9688#0" expanded="true" />
+                      <element signature="e#9714#9715#0" expanded="true" />
                     </folding>
                   </state>
                 </provider>
@@ -111,11 +111,11 @@
       <file leaf-file-name="Nill.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/connect4/model/Connect4/Nill.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="783">
-              <caret line="27" column="5" lean-forward="true" selection-start-line="27" selection-start-column="5" selection-end-line="27" selection-end-column="5" />
+            <state relative-caret-position="551">
+              <caret line="19" column="32" lean-forward="true" selection-start-line="19" selection-start-column="32" selection-end-line="19" selection-end-column="32" />
               <folding>
-                <element signature="e#742#743#0" expanded="true" />
-                <element signature="e#771#772#0" expanded="true" />
+                <element signature="e#1264#1265#0" expanded="true" />
+                <element signature="e#1293#1294#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -141,6 +141,11 @@
         <option value="Class" />
       </list>
     </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>score</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -482,7 +487,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1514167673508</updated>
-      <workItem from="1514167681957" duration="27015000" />
+      <workItem from="1514167681957" duration="30298000" />
     </task>
     <servers />
   </component>
@@ -501,7 +506,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="27015000" />
+    <option name="totallyTimeSpent" value="30298000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1911" y="0" width="1938" height="2119" extended-state="0" />
@@ -670,26 +675,26 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/connect4/model/Connect4/Nill.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="783">
-          <caret line="27" column="5" lean-forward="true" selection-start-line="27" selection-start-column="5" selection-end-line="27" selection-end-column="5" />
+        <state relative-caret-position="551">
+          <caret line="19" column="32" lean-forward="true" selection-start-line="19" selection-start-column="32" selection-end-line="19" selection-end-column="32" />
           <folding>
-            <element signature="e#742#743#0" expanded="true" />
-            <element signature="e#771#772#0" expanded="true" />
+            <element signature="e#1264#1265#0" expanded="true" />
+            <element signature="e#1293#1294#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/connect4/model/Connect4/Board.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1344">
-          <caret line="93" column="25" lean-forward="true" selection-start-line="93" selection-start-column="25" selection-end-line="93" selection-end-column="25" />
+        <state relative-caret-position="1106">
+          <caret line="157" column="0" lean-forward="true" selection-start-line="157" selection-start-column="0" selection-end-line="157" selection-end-column="0" />
           <folding>
-            <element signature="e#9027#9028#0" expanded="true" />
-            <element signature="e#9059#9060#0" expanded="true" />
-            <element signature="e#9093#9094#0" expanded="true" />
-            <element signature="e#9124#9125#0" expanded="true" />
-            <element signature="e#9158#9159#0" expanded="true" />
-            <element signature="e#9185#9186#0" expanded="true" />
+            <element signature="e#9556#9557#0" expanded="true" />
+            <element signature="e#9588#9589#0" expanded="true" />
+            <element signature="e#9622#9623#0" expanded="true" />
+            <element signature="e#9653#9654#0" expanded="true" />
+            <element signature="e#9687#9688#0" expanded="true" />
+            <element signature="e#9714#9715#0" expanded="true" />
           </folding>
         </state>
       </provider>

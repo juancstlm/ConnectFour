@@ -19,7 +19,11 @@ public class Player {
 	public void increaseScore() {
 		score++;
 	}
-	
+
+    /**
+     * Gets the current score of the player
+     * @return the score
+     */
 	public int getScore(){
 		return score;
 	}
@@ -31,6 +35,10 @@ public class Player {
 		score = 0;
 	}
 
+    /**
+     * Sets the player's game piece color
+     * @param c the color
+     */
 	public void setPlayerColor(Color c) {
 		playerColor = c;
 		playerName = c.toString();

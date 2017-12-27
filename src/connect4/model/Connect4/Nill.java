@@ -5,7 +5,7 @@ package connect4.model.Connect4;
  * instance of this nill node.
  * This nill class is thread safe.
  */
-public final class Nill extends Node{
+public final class Nill extends Node {
     private static volatile Nill instance = null;
 
     /**
@@ -13,7 +13,7 @@ public final class Nill extends Node{
      * Links everything back to the nill node
      * Parent and height should be set to -1
      */
-    private Nill(){
+    private Nill() {
         super(-1);
         super.setHeight(-1);
         super.setTopLeft(this);
@@ -28,12 +28,13 @@ public final class Nill extends Node{
 
     /**
      * Gets the instance of the Nill class node
+     *
      * @return the Nill node
      */
-    public static Nill getIntance(){
-        if(instance == null){
-            synchronized (Nill.class){
-                if(instance == null){
+    public static Nill getIntance() {
+        if (instance == null) {
+            synchronized (Nill.class) {
+                if (instance == null) {
                     instance = new Nill();
                 }
             }
@@ -41,9 +42,39 @@ public final class Nill extends Node{
         return instance;
     }
 
+
+    @Override
+    void setLeft(Node n) {
+    }
+
+    void setRight(Node n) {
+    }
+
+    void setBottom(Node n) {
+    }
+
+    void setTop(Node n) {
+    }
+
+    void setBottomRight(Node bottomRight) {
+    }
+
+    void setBottomLeft(Node bottomLeft) {
+    }
+
+    void setTopLeft(Node topLeft) {
+    }
+
+    void setTopRight(Node topRight) {
+    }
+
+    void setHeight(int height){
+    }
+
     /**
      * To string method of the nill node
      * Should just return "Nill"
+     *
      * @return
      */
     public String toString() {

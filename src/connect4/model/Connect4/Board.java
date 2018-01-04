@@ -1,6 +1,6 @@
 package connect4.model.Connect4;
 
-import javafx.util.Pair;
+import connect4.model.Tuple;
 
 import java.util.LinkedList;
 
@@ -21,7 +21,7 @@ public class Board {
     private int height;
     private int width;
 
-    private LinkedList<Node> moves;
+    private LinkedList<Tuple> moves;
     private boolean winByCols = false;
     private boolean winbyDiag = false;
     private boolean winbyRow = false;
@@ -62,6 +62,7 @@ public class Board {
         moves = new LinkedList<>();
     }
 
+    // TODO implement this in a better way
     private void checkWinConditions(Node n) {
         checkDiag(n);
         checkColumn(n);
@@ -189,9 +190,9 @@ public class Board {
      *
      * @param col    the column where to place the game piece
      * @param player the player id
-     * @return the row where the game piece was placed
+     * @return the Tuple coordinates where the game piece was placed.
      */
-    public int insert(int col, int player) throws Exception {
+    public Tuple insert(int col, int player) throws Exception {
         Node n = new Node(player);
         n.setTop(NILL);
         Node parent = getHighestNode(col);
@@ -221,12 +222,14 @@ public class Board {
             n.setHeight(parent.getHeight() + 1);
             // set this node as the root of the column
             gameboard[col] = n;
-            // add this node to the list of moves
-            moves.add(n);
+            // Crate and add this Tuple to the list of moves
+            Tuple t = new Tuple(col,n.getHeight());
+            moves.add(t);
 
+            // Check the win conditions
             checkWinConditions(n);
-
-            return n.getHeight();
+            //return the tuple
+            return t;
         } else if (parent.getHeight() < height) {
             n.setBottom(parent);
             int curHeight = parent.getHeight() + 1;
@@ -251,11 +254,13 @@ public class Board {
             n.setBottomRight(bottomRight);
 
             n.setHeight(parent.getHeight() + 1);
-            moves.add(n);
+
+            Tuple t = new Tuple(col, n.getHeight());
+            moves.add(t);
 
             checkWinConditions(n);
 
-            return n.getHeight();
+            return t;
         } else {
             throw new Exception("Column specified is full. Cannot insert player's game piece");
         }
@@ -264,9 +269,10 @@ public class Board {
     /**
      * Undoes the last insert that was made into the game board
      */
-    public Pair undoLast() throws NullPointerException {
+    public Tuple undoLast() throws NullPointerException {
         if (!moves.isEmpty()) {
-            Node n = moves.removeLast();
+            Tuple t = moves.removeLast();
+            Node n = getNode(t.getX(),t.getY());
             // Find all the nodes that link to this node
             Node top = n.getTop();
             Node bottom = n.getBottom();
@@ -286,7 +292,7 @@ public class Board {
             bottomRight.setTopLeft(NILL);
             // Set all the nodes that link to this node to link to the NILL node
             // return the position of the removed node
-            return {n.getHeight(),0};
+            return t;
         } else {
             throw new NullPointerException();
         }

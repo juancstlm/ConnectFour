@@ -14,6 +14,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
@@ -44,6 +45,8 @@ public class GameViewController {
     private Circle player1Circle; // Player 1's turn indicator
     @FXML
     private Circle player2Circle; // Player 2's turn indicator
+    @FXML
+    private Button undo; // The undo button.
 
     @FXML
     public void initialize() {
@@ -53,6 +56,8 @@ public class GameViewController {
         boardHeight = ConnectFour.DEFAULT_BOARD_HEIGHT;
         boardWidth = ConnectFour.DEFAULT_BOARD_WIDTH;
         createBoard(boardHeight, boardWidth);
+        // Dissable the undo button
+        undo.setDisable(true);
     }
 
     /**
@@ -216,6 +221,8 @@ public class GameViewController {
             } else {
                 switchPlayer();
             }
+
+            undo.setDisable(!(board.getMoveCount() > 0));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -224,11 +231,14 @@ public class GameViewController {
     /**
      * Undoes the last move that was executed in the game
      */
+    @FXML
     private void undo(){
         Board board = mainApp.getGameBoard();
+        undo.setDisable(true);
         Tuple t = board.undoLast();
-        Circle c = (Circle) getNodePosition(t.getY(), t.getX());
-        c.setFill(Color.web("#0D47A1"));
+        Circle c = (Circle) getNodePosition(boardHeight - t.getY(), t.getX());
+        c.setFill(Color.web("white", 0.90));
+        switchPlayer();
     }
 
     private void showDrawDialouge() {

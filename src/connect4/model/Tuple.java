@@ -1,29 +1,21 @@
 package connect4.model;
 
-public class Tuple<X, Y> {
-    private X x;
-    private Y y;
+public class Tuple {
+    private final Integer x;
+    private final Integer y;
 
-    public Tuple(X x, Y y){
+    public Tuple(Integer x, Integer y){
         this.x = x;
         this.y = y;
     }
 
 
-    public X getX() {
+    public Integer getX() {
         return x;
     }
 
-    public void setX(X x) {
-        this.x = x;
-    }
-
-    public Y getY() {
+    public Integer getY() {
         return y;
-    }
-
-    public void setY(Y y) {
-        this.y = y;
     }
 
     @Override
@@ -32,8 +24,8 @@ public class Tuple<X, Y> {
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Tuple)) return false;
-        Tuple pairo = (Tuple) o;
-        return this.x.equals(pairo.getX()) &&
-                this.y.equals(pairo.getY());
+        Tuple t = (Tuple) o;
+        return this.x.equals(t.getX()) &&
+                this.y.equals(t.getY());
     }
 }

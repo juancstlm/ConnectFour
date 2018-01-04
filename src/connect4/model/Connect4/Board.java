@@ -1,5 +1,7 @@
 package connect4.model.Connect4;
 
+import javafx.util.Pair;
+
 import java.util.LinkedList;
 
 /**
@@ -45,6 +47,7 @@ public class Board {
         //Assign the NILL node
         NILL = Nill.getIntance();
 
+        // set the sizing accordingly
         this.height = height;
         this.width = width;
         this.scoreToWin = scoreToWin;
@@ -188,7 +191,7 @@ public class Board {
      * @param player the player id
      * @return the row where the game piece was placed
      */
-    public int insert(int col, int player) {
+    public int insert(int col, int player) throws Exception {
         Node n = new Node(player);
         n.setTop(NILL);
         Node parent = getHighestNode(col);
@@ -254,14 +257,14 @@ public class Board {
 
             return n.getHeight();
         } else {
-            return -1;
+            throw new Exception("Column specified is full. Cannot insert player's game piece");
         }
     }
 
     /**
      * Undoes the last insert that was made into the game board
      */
-    public void undoLast() {
+    public Pair undoLast() throws NullPointerException {
         if (!moves.isEmpty()) {
             Node n = moves.removeLast();
             // Find all the nodes that link to this node
@@ -282,17 +285,31 @@ public class Board {
             bottomLeft.setTopRight(NILL);
             bottomRight.setTopLeft(NILL);
             // Set all the nodes that link to this node to link to the NILL node
+            // return the position of the removed node
+            return {n.getHeight(),0};
+        } else {
+            throw new NullPointerException();
         }
+    }
+
+
+    /**
+     * Gets the number of moves that have been performed in the current game
+     *
+     * @return the number of moves of the current board
+     */
+    public int getMoveCount() {
+        return moves.size();
     }
 
     /**
      * Clears the game board
      */
     public void clear() {
+        // Set all the root noes to be the NILL node
         for (int i = 0; i < gameboard.length; i++) {
             gameboard[i] = NILL;
         }
-
         // Set the win conditions to be false
         winbyRow = false;
         winbyDiag = false;
@@ -300,7 +317,6 @@ public class Board {
     }
 
     public boolean checkColumns() {
-        //TODO implement
         return winByCols;
     }
 

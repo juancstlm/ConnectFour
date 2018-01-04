@@ -6,6 +6,7 @@ import java.util.Queue;
 import connect4.ConnectFour;
 import connect4.model.Connect4.Board;
 import connect4.model.Player;
+import connect4.model.Tuple;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -201,7 +202,7 @@ public class GameViewController {
         int column = gameGrid.getColumnIndex(pane);// find what column this pane is in
         Board board = mainApp.getGameBoard();
         try {
-            int row = boardHeight - board.insert(column, player.getPlayerID());
+            int row = boardHeight - board.insert(column, player.getPlayerID()).getY();
             Circle c = (Circle) getNodePosition(row, column);
             c.setFill(currentPlayer.getPlayerColor());
             if (board.checkColumns()) {
@@ -225,7 +226,9 @@ public class GameViewController {
      */
     private void undo(){
         Board board = mainApp.getGameBoard();
-        board.undoLast();
+        Tuple t = board.undoLast();
+        Circle c = (Circle) getNodePosition(t.getY(), t.getX());
+        c.setFill(Color.web("#0D47A1"));
     }
 
     private void showDrawDialouge() {

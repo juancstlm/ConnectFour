@@ -26,7 +26,6 @@ public class ConnectFour extends Application {
 	private int boardWidth = DEFAULT_BOARD_WIDTH;
 	private int boardHeight = DEFAULT_BOARD_HEIGHT;
 	private int scoreToWin =  DEFAULT_SCORE_TO_WIN;
-										// win
 	private Queue<Player> players; // The players of the game
 	private Board gameBoard;
 
@@ -43,6 +42,9 @@ public class ConnectFour extends Application {
 		initMenuView();
 	}
 
+    /**
+     *
+     */
 	private void initMenuView() {
 		try {
 			FXMLLoader loader = new FXMLLoader();

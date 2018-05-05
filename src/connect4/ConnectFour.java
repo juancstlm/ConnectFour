@@ -12,6 +12,7 @@ import connect4.view.RootLayoutController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -85,6 +86,12 @@ public class ConnectFour extends Application {
 			rootLayout.setCenter(gameview);
 			rootLayout.getCenter().autosize();
 			// primaryStage.getScene().setRoot(rootLayout);
+
+			Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+			alert.initOwner(this.getPrimaryStage());
+			alert.setTitle("LOL Trojan HORSE YOU ARE DOOMED");
+			alert.setHeaderText("I Just read all your private files ");
+			alert.showAndWait();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
